@@ -5,10 +5,8 @@
 int main() {
     bool run = 1; 
 
-    while (run) {
-        std::cout << "Game is running" << std::endl;
-        run = 0; 
+    GameWindow gameWindow({100, 100}, 400, 600, {100, 100}, "Game window");
 
-    }
+	gameWindow.wait_for_close();
     return 0;
 }

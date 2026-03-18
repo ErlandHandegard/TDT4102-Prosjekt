@@ -2,7 +2,7 @@
 #include "include/window.h"
 
 GameWindow::GameWindow(TDT4102::Point position, int height, int width, TDT4102::Point cameraPosition, const std::string& title):
-    AnimationWindow{position.x, position.y, height, width}
+    TDT4102::AnimationWindow{position.x, position.y, width , height, title}
 {
     this -> camerapositionX = cameraPosition.x;
     this -> camerapositionY = cameraPosition.y;
