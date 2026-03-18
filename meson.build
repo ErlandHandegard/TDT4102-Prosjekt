@@ -12,7 +12,7 @@ compiler_flags = ['-Wconversion', '-fdiagnostics-color=always', '-Werror=return-
 
 inc = include_directories('include')
 
-src = ['main.cpp', 'src/window.cpp']
+src = ['main.cpp', 'src/window.cpp', 'src/player.cpp', 'src/world.cpp']
 
 if host_machine.system() == 'windows'
   ld_flags = ['-static', '-lstdc++exp']
