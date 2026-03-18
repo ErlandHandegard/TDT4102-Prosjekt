@@ -1,0 +1,3 @@
+/*
+Her skal vi definere medlemsfunksjonen til en player
+*/
