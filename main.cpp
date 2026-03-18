@@ -1,11 +1,14 @@
 #include <iostream>
+#include "AnimationWindow.h"
 #include "include/window.h"
 
 int main() {
-    
-    print("Hello");
+    bool run = 1; 
 
-    std::cout << "Hello, World!" << std::endl;
+    while (run) {
+        std::cout << "Game is running" << std::endl;
+        run = 0; 
 
+    }
     return 0;
 }

@@ -1,5 +1,14 @@
 #include <iostream>
+#include "include/window.h"
 
-void print(std::string setning){
-    std::cout << setning << std::endl; 
-};
+GameWindow::GameWindow(TDT4102::Point position, int height, int width, TDT4102::Point cameraPosition, const std::string& title):
+    AnimationWindow{position.x, position.y, height, width}
+{
+    this -> camerapositionX = cameraPosition.x;
+    this -> camerapositionY = cameraPosition.y;
+}
+
+void GameWindow::moveCamera(TDT4102::Point playerPosition){
+    this -> camerapositionX = playerPosition.x;
+    this -> camerapositionY = playerPosition.y; 
+}
