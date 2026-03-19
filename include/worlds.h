@@ -1,5 +1,5 @@
 /*
-Her skal vi lage verden som skal ta inn en txt.fil og lese hvordan verden skal se ut. 
+Her skal vi lage verden som skal generer verdener. Den skal ikke. Kunne kanskje bare vært en funksjon som skriver til tekstfilene. 
 */
 
 
