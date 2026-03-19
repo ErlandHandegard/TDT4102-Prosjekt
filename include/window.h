@@ -16,6 +16,7 @@ class GameWindow : public TDT4102::AnimationWindow{
         int windowPositionY = 100;
         double camerapositionX;
         double camerapositionY;
+        TDT4102::AnimationWindow window; 
     public:
         GameWindow(TDT4102::Point position, int height, int width, TDT4102::Point cameraPosition, const std::string& title);
 
