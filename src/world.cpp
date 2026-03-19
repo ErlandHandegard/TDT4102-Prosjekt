@@ -1,4 +1,7 @@
 /*
+psudeo kode for i morgen
 
+Lage en verdensgenerator. 
+Laste og laste opp slik varden skal se ut. 
 
 */
