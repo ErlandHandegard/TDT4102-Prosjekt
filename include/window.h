@@ -20,6 +20,6 @@ class GameWindow : public TDT4102::AnimationWindow{
         GameWindow(TDT4102::Point position, int height, int width, TDT4102::Point cameraPosition, const std::string& title);
 
         void moveCamera(TDT4102::Point playerPosition);
-        void draw(std::string filePath);
+        void updateWorld(const std::string &filePath);
 };
 
