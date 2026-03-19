@@ -12,3 +12,7 @@ void GameWindow::moveCamera(TDT4102::Point playerPosition){
     this -> camerapositionX = playerPosition.x;
     this -> camerapositionY = playerPosition.y; 
 }
+
+void GameWindow::draw(std::string picturePath){
+    
+}
