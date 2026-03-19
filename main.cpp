@@ -5,7 +5,7 @@
 int main() {
     TDT4102::AnimationWindow window;
 
-    TDT4102::Image image("pictures/grassBlock.png");
+    TDT4102::Image image("pictures/dirtBlock.png");
 
     while(!window.should_close()) {
         TDT4102::Point topLeftCorner {0, 0};
