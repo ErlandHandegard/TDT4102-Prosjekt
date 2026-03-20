@@ -5,17 +5,26 @@
 GameWindow::GameWindow(TDT4102::Point position, int height, int width, TDT4102::Point cameraPosition, const std::string& title):
     AnimationWindow{position.x, position.y, width , height, title}
     {
-    // this -> camerapositionX = cameraPosition.x;
-    // this -> camerapositionY = cameraPosition.y;
+    this -> camerapositionX = cameraPosition.x;
+    this -> camerapositionY = cameraPosition.y;
 }
 
-/*
-void GameWindow::moveCamera(TDT4102::Point playerPosition){
-    this -> camerapositionX = playerPosition.x;
-    this -> camerapositionY = playerPosition.y; 
-}
-*/
 
+void GameWindow::moveCamera(){
+    bool wKeyIsPressed = this -> is_key_down(KeyboardKey::W);
+    bool aKeyIsPressed = this -> is_key_down(KeyboardKey::A);
+    bool sKeyIsPressed = this -> is_key_down(KeyboardKey::S);
+    bool dKeyIsPressed = this -> is_key_down(KeyboardKey::D);
+    if (wKeyIsPressed){
+        this -> camerapositionY -= 1;
+    } else if (sKeyIsPressed){
+        this -> camerapositionY += 1;
+    } else if (dKeyIsPressed){
+        this -> camerapositionX += 1;
+    } else if (aKeyIsPressed){
+        this -> camerapositionX -= 1;
+    }
+}
 
 void GameWindow::updateWorld(const std::string &filePath){
     std::filesystem::path filename(filePath);
