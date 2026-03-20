@@ -3,13 +3,10 @@
 #include "include/window.h"
 
 int main() {
-
-    GameWindow gameWindow({100, 100}, 1400, 1600, {100, 100}, "Game window");
-    
-    gameWindow.updateWorld("Worlds/firstWorld.txt");
-
-	gameWindow.wait_for_close();
-
-
+    bool gameRun = 1; 
+    GameWindow gameWindow({100, 100}, 800, 1200, {100, 100}, "Game window");
+    while(!gameWindow.should_close()){
+        gameWindow.updateWorld("Worlds/firstWorld.txt");
+    }
     return 0;
 }
