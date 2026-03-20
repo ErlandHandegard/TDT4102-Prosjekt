@@ -38,7 +38,7 @@ void GameWindow::updateWorld(const std::string &filePath){
         for (char worldTile : worldLineInText){
             TDT4102::Point topLeftCorner {tileNumber * 8, i * 32};
             if (worldTile != '"' && worldTile != ',' && worldTile != ' '){
-                TDT4102::Image image("pictures/" + std::string(1, worldTile) +".png");
+                TDT4102::Image image("cpictures/" + std::string(1, worldTile) +".png");
                 this -> draw_image(topLeftCorner, image, 32, 32);
             }
             tileNumber++;
