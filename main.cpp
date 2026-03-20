@@ -3,10 +3,14 @@
 #include "include/window.h"
 
 int main() {
-    bool gameRun = 1; 
     GameWindow gameWindow({100, 100}, 800, 1200, {100, 100}, "Game window");
+
+    // gameWindow.updateWorld("eworlds/firstWorld.txt");
+    // gameWindow.wait_for_close(); 
     while(!gameWindow.should_close()){
-        gameWindow.updateWorld("Worlds/firstWorld.txt");
+        gameWindow.updateWorld("eworlds/firstWorld.txt");
+        gameWindow.moveCamera();
+        gameWindow.next_frame();
     }
     return 0;
 }

@@ -9,7 +9,6 @@ GameWindow::GameWindow(TDT4102::Point position, int height, int width, TDT4102::
     this -> camerapositionY = cameraPosition.y;
 }
 
-
 void GameWindow::moveCamera(){
     bool wKeyIsPressed = this -> is_key_down(KeyboardKey::W);
     bool aKeyIsPressed = this -> is_key_down(KeyboardKey::A);
@@ -27,6 +26,7 @@ void GameWindow::moveCamera(){
 }
 
 void GameWindow::updateWorld(const std::string &filePath){
+    this -> setBackgroundColor(TDT4102::Color::white);
     std::filesystem::path filename(filePath);
     std::fstream worldFile{filename};
     int number;
@@ -40,6 +40,8 @@ void GameWindow::updateWorld(const std::string &filePath){
             if (worldTile != '"' && worldTile != ',' && worldTile != ' '){
                 TDT4102::Image image("cpictures/" + std::string(1, worldTile) +".png");
                 this -> draw_image(topLeftCorner, image, 32, 32);
+                this -> draw_text({100, 100}, std::to_string(this -> camerapositionX), TDT4102::Color::navy);
+                this -> draw_text({100, 120}, std::to_string(this -> camerapositionY), TDT4102::Color::navy);
             }
             tileNumber++;
         }
