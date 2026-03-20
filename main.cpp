@@ -3,9 +3,8 @@
 #include "include/window.h"
 
 int main() {
-    bool run = 1; 
 
-    GameWindow gameWindow({100, 100}, 400, 600, {100, 100}, "Game window");
+    GameWindow gameWindow({100, 100}, 1400, 1600, {100, 100}, "Game window");
     
     gameWindow.updateWorld("Worlds/firstWorld.txt");
 
