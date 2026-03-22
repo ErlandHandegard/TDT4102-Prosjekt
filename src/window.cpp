@@ -2,11 +2,11 @@
 #include <fstream>
 #include "include/window.h"
 
-GameWindow::GameWindow(TDT4102::Point position, int height, int width, TDT4102::Point cameraPosition, const std::string& title, const std::string &filePath):
+GameWindow::GameWindow(TDT4102::Point position, int height, int width, TDT4102::Point playerPosition, const std::string& title, const std::string &filePath):
     AnimationWindow{position.x, position.y, width , height, title}
     {
-    this -> camerapositionX = cameraPosition.x;
-    this -> camerapositionY = cameraPosition.y;
+    this -> camerapositionX = playerPosition.x;
+    this -> camerapositionY = playerPosition.y;
 
     //Her må vi skaffe størrelsen på rutenettet
     int countingWidth = 0; 
@@ -19,14 +19,14 @@ GameWindow::GameWindow(TDT4102::Point position, int height, int width, TDT4102::
             countingWidth += 1;
         }
     }
-    this -> gridWidth = countingWidth;
+    this -> gridWidth = countingWidth; 
 
     int countingHeight = 0; 
-    while (std::getline(worldFile, worldLineInText)){
+    while (std::getline(worldFile, worldLineInText)){ //Her leser jeg alle linjene for å få høyden
         countingHeight += 1;
     }
 
-    this -> gridHeight = countingHeight + 1; 
+    this -> gridHeight = countingHeight + 1; //Plusser på en siden jeg mistet den ene fra da jeg fant bredden
 }
 
 void GameWindow::moveCamera(){
@@ -48,7 +48,7 @@ void GameWindow::moveCamera(){
 void GameWindow::updateWorld(const std::string &filePath){
     this -> setBackgroundColor(TDT4102::Color::white);
     std::filesystem::path filename(filePath);
-    std::fstream worldFile{filename};
+    std::ifstream worldFile{filename};
     int number;
 
     for (int i = 0; i < 29; ++i){
@@ -69,7 +69,11 @@ void GameWindow::updateWorld(const std::string &filePath){
     
 }
 
-// std::vector<int> cameraPosToGridPos(){
-    
-
-// }
+void GameWindow::cameraPosToGridPos(){
+    //For å gjøre denne responsiv har animation window en get dimensions funksjon, men nå render jeg kun 10 blokker i x retning
+    // og 5 i y retning
+    this->blocksToRenderX = 10;
+    this->blocksToRenderY = 5; 
+    this->gridPosition.x = (this-> camerapositionX) / 16;
+    this->gridPosition.y = (this-> camerapositionY) / 32;
+}

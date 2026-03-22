@@ -16,13 +16,16 @@ class GameWindow : public TDT4102::AnimationWindow{
         int gridHeight; 
         int camerapositionX;
         int camerapositionY;
+        TDT4102::Point gridPosition;  //Denne angir hvilket blokker som er vits å rendere. 
+        int blocksToRenderX;          //Antall blokker å rende i x retning
+        int blocksToRenderY;          //Antall blokker å rende i y retning
     public: 
         
         GameWindow(TDT4102::Point position, int height, int width, TDT4102::Point cameraPosition, const std::string& title, const std::string &filePath);
 
         void moveCamera();
 
-        //std::vector<int> cameraPosToGridPos(int width, int height, int camerapositionX, int camerapositionY);
+        void cameraPosToGridPos();
 
         void updateWorld(const std::string &filePath);
 };
