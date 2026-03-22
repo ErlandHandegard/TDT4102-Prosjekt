@@ -2,11 +2,10 @@
 #include <fstream>
 #include "include/window.h"
 
-GameWindow::GameWindow(TDT4102::Point position, int height, int width, TDT4102::Point cameraPosition, const std::string& title, const std::string &filePath):
+GameWindow::GameWindow(TDT4102::Point position, int height, int width, TDT4102::Point cameraPosition, const std::string& title):
     AnimationWindow{position.x, position.y, width , height, title}
     {
-    this -> camerapositionX = cameraPosition.x;
-    this -> camerapositionY = cameraPosition.y;
+    this -> cameraPosition = {cameraPosition.x, cameraPosition.y};
     /*
     Definer grid widht som er antall blokker.
     og definer grid height som er i y retning
@@ -21,21 +20,20 @@ void GameWindow::moveCamera(){
     bool sKeyIsPressed = this -> is_key_down(KeyboardKey::S);
     bool dKeyIsPressed = this -> is_key_down(KeyboardKey::D);
     if (wKeyIsPressed){
-        this -> camerapositionY -= 1;
+        this -> cameraPosition.y -= 1;
     } else if (sKeyIsPressed){
-        this -> camerapositionY += 1;
+        this -> cameraPosition.y += 1;
     } else if (dKeyIsPressed){
-        this -> camerapositionX += 1;
+        this -> cameraPosition.x += 1;
     } else if (aKeyIsPressed){
-        this -> camerapositionX -= 1;
+        this -> cameraPosition.x -= 1;
     }
 }
 
 void GameWindow::updateWorld(const std::string &filePath){
-    this -> setBackgroundColor(TDT4102::Color::white);
+    //this -> setBackgroundColor(TDT4102::Color::white);
     std::filesystem::path filename(filePath);
     std::fstream worldFile{filename};
-    int number;
 
     for (int i = 0; i < this -> gridHeight; ++i){
         std::string worldLineInText; 
@@ -46,8 +44,9 @@ void GameWindow::updateWorld(const std::string &filePath){
             if (worldTile != '"' && worldTile != ',' && worldTile != ' '){
                 TDT4102::Image image("cpictures/" + std::string(1, worldTile) +".png");
                 this -> draw_image(topLeftCorner, image, 32, 32);
-                this -> draw_text({100, 100}, std::to_string(this -> camerapositionX), TDT4102::Color::navy);
-                this -> draw_text({100, 120}, std::to_string(this -> camerapositionY), TDT4102::Color::navy);
+                this -> draw_text({100, 100}, std::to_string(this -> cameraPosition.x), TDT4102::Color::navy);
+                this -> draw_text({100, 120}, std::to_string(this -> cameraPosition.y), TDT4102::Color::navy);
+                
             }
             tileNumber++;
         }
