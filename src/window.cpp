@@ -36,8 +36,8 @@ void GameWindow::updateWorld(const std::string &filePath){
         getline(worldFile, worldLineInText);
         int tileNumber = 0;
         for (char worldTile : worldLineInText){
-            TDT4102::Point topLeftCorner {tileNumber * 8, i * 32};
-            if (worldTile != '"' && worldTile != ',' && worldTile != ' '){
+            TDT4102::Point topLeftCorner {tileNumber * 16, i * 32};
+            if (worldTile != ',' && worldTile != '0'){
                 TDT4102::Image image("cpictures/" + std::string(1, worldTile) +".png");
                 this -> draw_image(topLeftCorner, image, 32, 32);
                 this -> draw_text({100, 100}, std::to_string(this -> camerapositionX), TDT4102::Color::navy);
@@ -48,3 +48,8 @@ void GameWindow::updateWorld(const std::string &filePath){
     }
     
 }
+
+// std::vector<int> cameraPosToGridPos(){
+    
+
+// }

@@ -12,12 +12,15 @@ class GameWindow : public TDT4102::AnimationWindow{
     private: 
         int width;
         int height;
+        int camerapositionX;
+        int camerapositionY;
     public: 
-        int camerapositionX = 0;
-        int camerapositionY = 0;
+        
         GameWindow(TDT4102::Point position, int height, int width, TDT4102::Point cameraPosition, const std::string& title);
 
-    
         void moveCamera();
+
+        //std::vector<int> cameraPosToGridPos(int width, int height, int camerapositionX, int camerapositionY);
+
         void updateWorld(const std::string &filePath);
 };
