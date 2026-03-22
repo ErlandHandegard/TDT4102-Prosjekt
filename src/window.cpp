@@ -2,11 +2,17 @@
 #include <fstream>
 #include "include/window.h"
 
-GameWindow::GameWindow(TDT4102::Point position, int height, int width, TDT4102::Point cameraPosition, const std::string& title):
+GameWindow::GameWindow(TDT4102::Point position, int height, int width, TDT4102::Point cameraPosition, const std::string& title, const std::string &filePath):
     AnimationWindow{position.x, position.y, width , height, title}
     {
     this -> camerapositionX = cameraPosition.x;
     this -> camerapositionY = cameraPosition.y;
+    /*
+    Definer grid widht som er antall blokker.
+    og definer grid height som er i y retning
+
+    
+    */
 }
 
 void GameWindow::moveCamera(){
@@ -31,7 +37,7 @@ void GameWindow::updateWorld(const std::string &filePath){
     std::fstream worldFile{filename};
     int number;
 
-    for (int i = 0; i < 29; ++i){
+    for (int i = 0; i < this -> gridHeight; ++i){
         std::string worldLineInText; 
         getline(worldFile, worldLineInText);
         int tileNumber = 0;

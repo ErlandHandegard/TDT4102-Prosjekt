@@ -3,7 +3,7 @@
 #include "include/window.h"
 
 int main() {
-    GameWindow gameWindow({100, 100}, 800, 1200, {100, 100}, "Game window");
+    GameWindow gameWindow({100, 100}, 800, 1200, {100, 100}, "Game window", "eworlds/firstWorld.txt");
 
     // gameWindow.updateWorld("eworlds/firstWorld.txt");
     // gameWindow.wait_for_close(); 
