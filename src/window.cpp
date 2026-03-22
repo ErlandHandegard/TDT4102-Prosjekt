@@ -46,24 +46,24 @@ void GameWindow::moveCamera(){
 }
 
 void GameWindow::updateWorld(const std::string &filePath){
+
     this -> setBackgroundColor(TDT4102::Color::white);
     std::filesystem::path filename(filePath);
     std::ifstream worldFile{filename};
     std::string worldLineInText;
+
     int row = 0;
     while (std::getline(worldFile, worldLineInText)){
         if (row > (-this->blocksToRenderY + gridPosition.y) && row < (this->blocksToRenderY + gridPosition.y)){
             int collumn = 0; 
             for (char worldTile : worldLineInText){
-                if (collumn > (-this->blocksToRenderX + gridPosition.x) && collumn < (this->blocksToRenderY + gridPosition.y && worldTile != ',' && worldTile != '0')){
+                if (collumn > (-this->blocksToRenderX + gridPosition.x) && collumn < (this->blocksToRenderX + gridPosition.x) && worldTile != ',' && worldTile != '0'){
                     TDT4102::Point topLeftCorner {camerapositionX - (collumn * 16), camerapositionY - (row * 32)};
                     TDT4102::Image image("cpictures/" + std::string(1, worldTile) +".png");
                     this -> draw_image(topLeftCorner, image, 32, 32);
                 }
-                if (worldTile != ','){
+                if (worldTile == ','){
                     collumn += 1; 
-                    std::cout << (camerapositionX - (collumn * 16)) << std::endl;
-                    std::cout << (camerapositionY - (row * 32)) << std::endl;
                 }
             }
         }
