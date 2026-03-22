@@ -2,11 +2,31 @@
 #include <fstream>
 #include "include/window.h"
 
-GameWindow::GameWindow(TDT4102::Point position, int height, int width, TDT4102::Point cameraPosition, const std::string& title):
+GameWindow::GameWindow(TDT4102::Point position, int height, int width, TDT4102::Point cameraPosition, const std::string& title, const std::string &filePath):
     AnimationWindow{position.x, position.y, width , height, title}
     {
     this -> camerapositionX = cameraPosition.x;
     this -> camerapositionY = cameraPosition.y;
+
+    //Her må vi skaffe størrelsen på rutenettet
+    int countingWidth = 0; 
+    std::filesystem::path filename(filePath);
+    std::ifstream worldFile{filename};
+    std::string worldLineInText; 
+    std::getline(worldFile, worldLineInText); //Trenger bare lese fra første linje 
+    for (char c : worldLineInText) {
+        if (c == ','){
+            countingWidth += 1;
+        }
+    }
+    this -> gridWidth = countingWidth;
+
+    int countingHeight = 0; 
+    while (std::getline(worldFile, worldLineInText)){
+        countingHeight += 1;
+    }
+
+    this -> gridHeight = countingHeight + 1; 
 }
 
 void GameWindow::moveCamera(){

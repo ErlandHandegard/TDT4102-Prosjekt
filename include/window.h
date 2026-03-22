@@ -12,11 +12,13 @@ class GameWindow : public TDT4102::AnimationWindow{
     private: 
         int width;
         int height;
+        int gridWidth;
+        int gridHeight; 
         int camerapositionX;
         int camerapositionY;
     public: 
         
-        GameWindow(TDT4102::Point position, int height, int width, TDT4102::Point cameraPosition, const std::string& title);
+        GameWindow(TDT4102::Point position, int height, int width, TDT4102::Point cameraPosition, const std::string& title, const std::string &filePath);
 
         void moveCamera();
 
