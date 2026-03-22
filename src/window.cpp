@@ -49,23 +49,44 @@ void GameWindow::updateWorld(const std::string &filePath){
     this -> setBackgroundColor(TDT4102::Color::white);
     std::filesystem::path filename(filePath);
     std::ifstream worldFile{filename};
-    int number;
-
-    for (int i = 0; i < 29; ++i){
-        std::string worldLineInText; 
-        getline(worldFile, worldLineInText);
-        int tileNumber = 0;
-        for (char worldTile : worldLineInText){
-            TDT4102::Point topLeftCorner {tileNumber * 16, i * 32};
-            if (worldTile != ',' && worldTile != '0'){
-                TDT4102::Image image("cpictures/" + std::string(1, worldTile) +".png");
-                this -> draw_image(topLeftCorner, image, 32, 32);
-                this -> draw_text({100, 100}, std::to_string(this -> camerapositionX), TDT4102::Color::navy);
-                this -> draw_text({100, 120}, std::to_string(this -> camerapositionY), TDT4102::Color::navy);
+    std::string worldLineInText;
+    int row = 0;
+    while (std::getline(worldFile, worldLineInText)){
+        if (row > (-this->blocksToRenderY + gridPosition.y) && row < (this->blocksToRenderY + gridPosition.y)){
+            int collumn = 0; 
+            for (char worldTile : worldLineInText){
+                if (collumn > (-this->blocksToRenderX + gridPosition.x) && collumn < (this->blocksToRenderY + gridPosition.y && worldTile != ',' && worldTile != '0')){
+                    TDT4102::Point topLeftCorner {camerapositionX - (collumn * 16), camerapositionY - (row * 32)};
+                    TDT4102::Image image("cpictures/" + std::string(1, worldTile) +".png");
+                    this -> draw_image(topLeftCorner, image, 32, 32);
+                }
+                if (worldTile != ','){
+                    collumn += 1; 
+                    std::cout << (camerapositionX - (collumn * 16)) << std::endl;
+                    std::cout << (camerapositionY - (row * 32)) << std::endl;
+                }
             }
-            tileNumber++;
         }
+        row += 1; 
     }
+    this -> draw_text({100, 100}, std::to_string(this -> camerapositionX), TDT4102::Color::navy);
+    this -> draw_text({100, 120}, std::to_string(this -> camerapositionY), TDT4102::Color::navy);
+
+    // for (int i = 0; i < 29; ++i){
+    //     std::string worldLineInText; 
+    //     getline(worldFile, worldLineInText);
+    //     int tileNumber = 0;
+    //     for (char worldTile : worldLineInText){
+    //         TDT4102::Point topLeftCorner {tileNumber * 16, i * 32};
+    //         if (worldTile != ',' && worldTile != '0'){
+    //             TDT4102::Image image("cpictures/" + std::string(1, worldTile) +".png");
+    //             this -> draw_image(topLeftCorner, image, 32, 32);
+    //             this -> draw_text({100, 100}, std::to_string(this -> camerapositionX), TDT4102::Color::navy);
+    //             this -> draw_text({100, 120}, std::to_string(this -> camerapositionY), TDT4102::Color::navy);
+    //         }
+    //         tileNumber++;
+    //     }
+    // }
     
 }
 
