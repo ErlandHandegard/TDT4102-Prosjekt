@@ -35,13 +35,13 @@ void GameWindow::moveCamera(){
     bool sKeyIsPressed = this -> is_key_down(KeyboardKey::S);
     bool dKeyIsPressed = this -> is_key_down(KeyboardKey::D);
     if (wKeyIsPressed){
-        this -> camerapositionY -= 1;
+        this -> camerapositionY -= 5;
     } else if (sKeyIsPressed){
-        this -> camerapositionY += 1;
+        this -> camerapositionY += 5;
     } else if (dKeyIsPressed){
-        this -> camerapositionX += 1;
+        this -> camerapositionX += 5;
     } else if (aKeyIsPressed){
-        this -> camerapositionX -= 1;
+        this -> camerapositionX -= 5;
     }
 }
 
@@ -58,7 +58,7 @@ void GameWindow::updateWorld(const std::string &filePath){
             int collumn = 0; 
             for (char worldTile : worldLineInText){
                 if (collumn > (-this->blocksToRenderX + gridPosition.x) && collumn < (this->blocksToRenderX + gridPosition.x) && worldTile != ',' && worldTile != '0'){
-                    TDT4102::Point topLeftCorner {camerapositionX - (collumn * 16), camerapositionY - (row * 32)};
+                    TDT4102::Point topLeftCorner {(-(this->camerapositionX-this->gridPosition.x*32)+collumn*32), (-(this->camerapositionY-this->gridPosition.y*32)+row*32)};
                     TDT4102::Image image("cpictures/" + std::string(1, worldTile) +".png");
                     this -> draw_image(topLeftCorner, image, 32, 32);
                 }
@@ -72,21 +72,6 @@ void GameWindow::updateWorld(const std::string &filePath){
     this -> draw_text({100, 100}, std::to_string(this -> camerapositionX), TDT4102::Color::navy);
     this -> draw_text({100, 120}, std::to_string(this -> camerapositionY), TDT4102::Color::navy);
 
-    // for (int i = 0; i < 29; ++i){
-    //     std::string worldLineInText; 
-    //     getline(worldFile, worldLineInText);
-    //     int tileNumber = 0;
-    //     for (char worldTile : worldLineInText){
-    //         TDT4102::Point topLeftCorner {tileNumber * 16, i * 32};
-    //         if (worldTile != ',' && worldTile != '0'){
-    //             TDT4102::Image image("cpictures/" + std::string(1, worldTile) +".png");
-    //             this -> draw_image(topLeftCorner, image, 32, 32);
-    //             this -> draw_text({100, 100}, std::to_string(this -> camerapositionX), TDT4102::Color::navy);
-    //             this -> draw_text({100, 120}, std::to_string(this -> camerapositionY), TDT4102::Color::navy);
-    //         }
-    //         tileNumber++;
-    //     }
-    // }
     
 }
 
