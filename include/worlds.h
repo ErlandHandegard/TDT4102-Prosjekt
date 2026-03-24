@@ -1,13 +1,27 @@
-/*
-Her skal vi lage verden som skal generer verdener. Den skal ikke. Kunne kanskje bare vært en funksjon som skriver til tekstfilene. 
-*/
 
 
 class World{
     private:
+        int gridWidth; int gridHeight;
+
 
 
     public:
+        // burde jeg hatt en gui?
+        /*
+        generer en verden
 
+        last inn verden
+
+        Funksjon som 
+
+        antall mobs
+
+        spiller
+
+        ødelegg
+
+        plasser
+        */
 
 };
