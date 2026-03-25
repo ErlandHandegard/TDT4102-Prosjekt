@@ -2,7 +2,9 @@
 #include <fstream>
 #include "include/window.h"
 
-GameWindow::GameWindow(){
+GameWindow::GameWindow(TDT4102::Point windowPosition):
+    TDT4102::AnimationWindow(windowPosition.x, windowPosition.y, title = "Game Window")
+{
 
 }
 
