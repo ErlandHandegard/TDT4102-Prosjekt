@@ -9,6 +9,7 @@ int main() {
     World world1("eworlds/firstWorld.txt");
 
     while(!gameWindow.should_close()){
+        gameWindow.updateWindow(*world1);
         gameWindow.next_frame();
     }
     return 0;
