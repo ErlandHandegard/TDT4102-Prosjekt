@@ -7,7 +7,7 @@ GameWindow::GameWindow(TDT4102::Point windowPosition, TDT4102::Point startingDim
 {
     this -> gridPosition = TDT4102::Point(1, 1);
     this -> cameraPosition = TDT4102::Point(32,32);
-    this -> blocksToRender = TDT4102::Point(10, 5); 
+    this -> blocksToRender = TDT4102::Point(15, 8); 
 }
 
 void amountOfBlocksToRender(const World& world){

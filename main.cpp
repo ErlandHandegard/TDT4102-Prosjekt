@@ -4,7 +4,7 @@
 #include "include/worlds.h"
 
 int main() {
-    GameWindow gameWindow({100, 100}, {9*32, 4*32}, "Game window");
+    GameWindow gameWindow({100, 100}, {14*32, 7*32}, "Game window");
 
     World world1("eworlds/firstWorld.txt");
 
