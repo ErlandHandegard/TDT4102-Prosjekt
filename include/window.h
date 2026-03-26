@@ -1,5 +1,9 @@
 #pragma once
 #include <iostream>
+#include <fstream>
+#include <vector>
+#include <string>
+#include "include/worlds.h"
 #include "AnimationWindow.h"
 
 class GameWindow : public TDT4102::AnimationWindow{
@@ -16,7 +20,9 @@ class GameWindow : public TDT4102::AnimationWindow{
         /*
         Oppdaterer for vær frame. Denne skal ta inn antall monstre, spiller, NPC alt etter hvor langt vi kommer. 
         */
-        void updateWindow();
+        void amountOfBlocksToRender(const World& world);
+        void updateWindowPosition(const World& world);
+        void updateWindow(const World& world);
 
         /* 
         Dersom esc blir trykt på åpnes en ny meny og man kan lagre quit eller lage ny verden og laste opp den. 
