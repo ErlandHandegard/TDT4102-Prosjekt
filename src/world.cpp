@@ -10,16 +10,23 @@ World::World(const std::string &filePath){
 
     while (std::getline(worldFile, worldLineInText)){
         std::vector<std::string> row; 
+        std::vector<bool> colitionActive;
         std::string block;
         for (char c : worldLineInText){
             if (c != ','){
                 block += c; 
             } else {
+                if (block == "0"){
+                    colitionActive.push_back(0);
+                } else {
+                    colitionActive.push_back(1); 
+                }
                 row.push_back(block);
                 block = "";
             }
         }
         row.push_back(block);
+        this -> collitionBlock.push_back(colitionActive);
         this -> worldBlocks.push_back(row);
     }
 
