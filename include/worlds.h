@@ -1,13 +1,22 @@
 #pragma once
 #include <iostream>
+#include <filesystem>
+#include <fstream>
+#include <vector>
+#include <string>
+#include "AnimationWindow.h"
 
 class World{
     private:
         TDT4102::Point worldGrid;
         TDT4102::Point worldPixelSize;
-        
-    public:
         std::vector<std::vector<std::string>> worldBlocks; 
+    public:
+        /*Deklarerer get funksjoner*/
+        std::vector<std::vector<std::string>> getBlocks() const {return worldBlocks;}
+        TDT4102::Point getWorldSizeInPixels() const {return worldPixelSize;}
+        TDT4102::Point getWorldSizeInBlocks() const {return worldGrid;}
+
         /*
         Planen nå. Jeg laster alltid inn firstWorld.txt
         World laster inn denne. 
@@ -22,9 +31,8 @@ class World{
         eworlds-mappen
         */
         void worldGenerator();
+        
         /*
-        generer en verden
-
         Funksjon som 
 
         antall mobs

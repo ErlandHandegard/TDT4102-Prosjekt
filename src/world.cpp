@@ -1,8 +1,3 @@
-#include <iostream>
-#include <filesystem>
-#include <fstream>
-#include <vector>
-#include "AnimationWindow.h"
 #include "include/worlds.h"
 
 World::World(const std::string &filePath){
@@ -28,7 +23,9 @@ World::World(const std::string &filePath){
         this -> worldBlocks.push_back(row);
     }
 
-    this -> worldGrid = TDT4102::Point(this->worldBlocks.at(0).size(), this->worldBlocks.size());
+    this->worldGrid = TDT4102::Point(static_cast<int>(this->worldBlocks.at(0).size()),
+    static_cast<int>(this->worldBlocks.size()));
+
     this -> worldPixelSize = TDT4102::Point((this -> worldGrid.x * 32), (this -> worldGrid.y * 32));
 }
 
