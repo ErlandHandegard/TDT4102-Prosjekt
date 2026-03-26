@@ -5,6 +5,8 @@
 
 class MobileEntities{
     private:
+        int hitPoints;
+        TDT4102::Point position; 
     public:
-        MobileEntities(); //Skal laste inn en txt fil slik at vi får inventoriet til spillerne. 
+        MobileEntities(int type);
 };
