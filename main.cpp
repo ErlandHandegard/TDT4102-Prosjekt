@@ -1,16 +1,16 @@
 #include <iostream>
 #include "AnimationWindow.h"
 #include "include/window.h"
+#include "include/worlds.h"
 
 int main() {
-    GameWindow gameWindow({100, 100}, 800, 1200, {(63*16)/2, (32*3)}, "Game window", "eworlds/firstWorld.txt");
+    GameWindow gameWindow({100, 100}, {9*32, 4*32}, "Game window");
 
-    // gameWindow.updateWorld("eworlds/firstWorld.txt");
-    // gameWindow.wait_for_close(); 
+    World world1("eworlds/firstWorld.txt");
+
     while(!gameWindow.should_close()){
-        gameWindow.cameraPosToGridPos();
-        gameWindow.updateWorld("eworlds/firstWorld.txt");
-        gameWindow.moveCamera();
+        gameWindow.updateWindowPosition(world1);
+        gameWindow.updateWindow(world1);
         gameWindow.next_frame();
     }
     return 0;
