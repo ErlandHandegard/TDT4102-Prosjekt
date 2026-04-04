@@ -4,8 +4,10 @@
 #include <vector>
 #include <string>
 #include <unordered_map>
-#include "include/worlds.h"
 #include "AnimationWindow.h"
+
+class World;
+class Player;
 
 class GameWindow : public TDT4102::AnimationWindow{
     private: 
@@ -25,9 +27,10 @@ class GameWindow : public TDT4102::AnimationWindow{
         void amountOfBlocksToRender(const World& world);
         void updateWindowPosition(const World& world);
         void updateWindow(const World& world);
-
+        void drawPlayer(const Player& player);
+        // void drawMobs(const std::vector<Mob>& mobs); Vi har enda ikke laget mobs
         /* 
         Dersom esc blir trykt på åpnes en ny meny og man kan lagre quit eller lage ny verden og laste opp den. 
         */
-        void openMeny(); 
+        void openGameMenu(); 
 };

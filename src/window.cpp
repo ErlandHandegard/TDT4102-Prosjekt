@@ -1,6 +1,6 @@
 #include "include/window.h"
-
-World test("eworlds/firstWorld.txt");
+#include "include/worlds.h"
+#include "include/player.h"
 
 GameWindow::GameWindow(TDT4102::Point windowPosition, TDT4102::Point startingDimensions, const std::string& title):
     AnimationWindow(windowPosition.x, windowPosition.y, startingDimensions.x, startingDimensions.y, title)
@@ -84,6 +84,13 @@ void GameWindow::updateWindow(const World& world){
     } 
 }
 
-void OpenMeny(){
+void GameWindow::drawPlayer(const Player& player){
+    //TDT4102::Image playerImage("cpictures/player.png"); // Dette blir feil, vi må laste inn bilder fra klassen slik at vi kan lage animasjoner og forskjellige skins.
+    TDT4102::Point playerPosition(player.getPosition().x, player.getPosition().y);
+    TDT4102::Point topLeftCorner(playerPosition.x - cameraPosition.x, playerPosition.y - cameraPosition.y);
+    this -> draw_rectangle(topLeftCorner, 40, 80, TDT4102::Color::blue); // Midlertidig, skal tegne spilleren som et rektangel før vi har laget sprites.
+}
+
+void GameWindow::openGameMenu(){
 
 }
