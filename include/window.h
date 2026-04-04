@@ -3,6 +3,7 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include <unordered_map>
 #include "include/worlds.h"
 #include "AnimationWindow.h"
 
@@ -11,6 +12,7 @@ class GameWindow : public TDT4102::AnimationWindow{
         TDT4102::Point gridPosition;    //Denne angir hvilket blokker som er vits å rendere. 
         TDT4102::Point cameraPosition;  //Skal være kameraposisjonen i pixelgriddet
         TDT4102::Point blocksToRender;  //Skal være en tuple med hvilke blokker i vær retning som skal rendere
+        std::unordered_map<std::string, TDT4102::Image> imageCache;  // Cache for block images
     public: 
         /*
         Bare initialiserer det første vinduet

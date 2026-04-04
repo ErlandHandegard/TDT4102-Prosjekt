@@ -7,7 +7,7 @@ GameWindow::GameWindow(TDT4102::Point windowPosition, TDT4102::Point startingDim
 {
     this -> gridPosition = TDT4102::Point(1, 1);
     this -> cameraPosition = TDT4102::Point(32,32);
-    this -> blocksToRender = TDT4102::Point(15, 8); 
+    this -> blocksToRender = TDT4102::Point(30, 16); 
 }
 
 void amountOfBlocksToRender(const World& world){
@@ -68,7 +68,11 @@ void GameWindow::updateWindow(const World& world){
     for (int i = this -> gridPosition.x; i < this -> gridPosition.x + this->blocksToRender.x; ++i){
         for (int j = this -> gridPosition.y; j < this -> gridPosition.y + this->blocksToRender.y; ++j){
             if (blocks.at(j).at(i) != "0"){
-                TDT4102::Image image("cpictures/" + blocks.at(j).at(i) + ".png");
+                std::string blockType = blocks.at(j).at(i);
+                if (imageCache.find(blockType) == imageCache.end()){
+                    imageCache[blockType] = TDT4102::Image("cpictures/" + blockType + ".png");
+                }
+                TDT4102::Image& image = imageCache[blockType];
 
                 TDT4102::Point topLeftCorner
                 (((this -> gridPosition.x * 32) - (this -> cameraPosition.x)) + ((i-gridPosition.x) * 32), 
