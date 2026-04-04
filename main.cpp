@@ -12,11 +12,17 @@ int main() {
     World world1("eworlds/firstWorld.txt");
 
     while(!gameWindow.should_close()){
+        //Oppdaterer antall blokker som skal rendres
         gameWindow.amountOfBlocksToRender();
-        gameWindow.updateWindowPosition(world1);
+
+        //Uppdaterer posisjonen til vinduet og spilleren
+        gameWindow.updateWindowPosition(world1, player);
         player.move(world1, gameWindow);
-        gameWindow.updateWindow(world1);
+        
+        //Tegne funksjonene må legges til sist. 
+        gameWindow.drawWindow(world1);
         gameWindow.drawPlayer(player);
+
         gameWindow.next_frame();
     }
     return 0;

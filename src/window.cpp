@@ -7,62 +7,83 @@ GameWindow::GameWindow(TDT4102::Point windowPosition, TDT4102::Point startingDim
 {
     this -> gridPosition = TDT4102::Point(1, 1);
     this -> cameraPosition = TDT4102::Point(32,32);
-    this -> blocksToRender = TDT4102::Point(10, 5); 
+    this -> blocksToRender = TDT4102::Point((this->width() / 32) + 1, (this->height() / 32) + 1); 
 }
 
 void GameWindow::amountOfBlocksToRender(){
     this->blocksToRender.x = (this->width() / 32) + 1; // Vi legger til 1 for å være sikker på at vi rendrer nok blokker i kantene av vinduet.
-    this->blocksToRender.y = (this->height() / 32) + 1;
+    this->blocksToRender.y = (this->height() / 32) + 2;
 }
 
-void GameWindow::updateWindowPosition(const World& world){
-    if (this -> is_key_down(KeyboardKey::A)){
-        try{
-            this -> cameraPosition.x -= 10;
-            if (cameraPosition.x < 0){
-                throw std::out_of_range("Outside camerabounds");
-            }
+void GameWindow::updateWindowPosition(const World& world, const Player& player){
+    int speedX = 1;
+    int speedY = 1;
+
+    if ((player.getPosition().x - ((this->width()/2) - 20)) - this -> cameraPosition.x > 50 || player.getPosition().x - ((this->width()/2) - 20) - this -> cameraPosition.x < -50){
+        speedX = 20;
+    } else if ((player.getPosition().x - ((this->width()/2) - 20)) - this -> cameraPosition.x > 10 || player.getPosition().x - ((this->width()/2) - 20) - this -> cameraPosition.x < -10){
+        speedX = 5;
+    } else {
+        speedX = 1;
+    }
+    if ((player.getPosition().y - ((this->height()/2) - 40)) - this -> cameraPosition.y > 50 || player.getPosition().y - ((this->height()/2) - 40) - this -> cameraPosition.y < -50){
+        speedY = 20;
+    } else if ((player.getPosition().y - ((this->height()/2) - 40)) - this -> cameraPosition.y > 10 || player.getPosition().y - ((this->height()/2) - 40) - this -> cameraPosition.y < -10){
+        speedY = 5;
+    } else {
+        speedY = 1;
+    }
+
+    try{
+        if ((player.getPosition().x - ((this->width()/2) - 20)) < this -> cameraPosition.x){
+            this -> cameraPosition.x -= speedX;
+        }
+        if (cameraPosition.x < 0){
+            throw std::out_of_range("Outside camerabounds");
+        }
         }
         catch(const std::out_of_range& e){
             this -> cameraPosition.x = 0;
+        }  
+    try{
+        if ((player.getPosition().x - ((this->width()/2) - 20)) > this -> cameraPosition.x){
+            this -> cameraPosition.x += speedX;
         }
-    } else if (this -> is_key_down(KeyboardKey::D)){
-        try{
-            this -> cameraPosition.x += 10;
-            if (cameraPosition.x > world.getWorldSizeInPixels().x-(this->blocksToRender.x * 32)){
-                throw std::out_of_range("Outside camerabounds");
-            }
+        if (cameraPosition.x > world.getWorldSizeInPixels().x-(this->blocksToRender.x * 32)){
+            throw std::out_of_range("Outside camerabounds");
+        }
         }
         catch(const std::out_of_range& e){
             this -> cameraPosition.x = world.getWorldSizeInPixels().x-(this->blocksToRender.x * 32);
         }
-    } else if (this -> is_key_down(KeyboardKey::S)){
-         try{
-            this -> cameraPosition.y += 10;
-            if (cameraPosition.y > world.getWorldSizeInPixels().y-(this->blocksToRender.y * 32)){
-                throw std::out_of_range("Outside camerabounds");
+    try{
+        if ((player.getPosition().y - ((this->height()/2) - 40)) < this -> cameraPosition.y){
+            this -> cameraPosition.y -= speedY;
+        }
+        if (cameraPosition.y > world.getWorldSizeInPixels().y-(this->blocksToRender.y * 32)){
+            throw std::out_of_range("Outside camerabounds");
             }
         }
         catch(const std::out_of_range& e){
             this -> cameraPosition.y = world.getWorldSizeInPixels().y-(this->blocksToRender.y * 32);
         }
-    } else if (this -> is_key_down(KeyboardKey::W)){
-        try{
-            this -> cameraPosition.y -= 10;
-            if (cameraPosition.y < 0){
-                throw std::out_of_range("Outside camerabounds");
-            }
+    try{
+        if ((player.getPosition().y - ((this->height()/2) - 40)) > this -> cameraPosition.y){
+            this -> cameraPosition.y += speedY;
+        }
+        if (cameraPosition.y < 0){
+            throw std::out_of_range("Outside camerabounds");
+        }
         }
         catch(const std::out_of_range& e){
             this -> cameraPosition.y = 0;
         }
-    }
     this -> gridPosition.x = cameraPosition.x / 32;
     this -> gridPosition.y = cameraPosition.y / 32; 
 }
 
 //Funksjonen skal ta inn mobs, players og rett antall blocker. 
-void GameWindow::updateWindow(const World& world){
+void GameWindow::drawWindow(const World& world){
     //this -> setBackgroundColor(TDT4102::Color::dark_green);
     std::vector<std::vector<std::string>> blocks = world.getBlocks();
 
