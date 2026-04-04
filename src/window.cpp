@@ -7,11 +7,12 @@ GameWindow::GameWindow(TDT4102::Point windowPosition, TDT4102::Point startingDim
 {
     this -> gridPosition = TDT4102::Point(1, 1);
     this -> cameraPosition = TDT4102::Point(32,32);
-    this -> blocksToRender = TDT4102::Point(30, 16); 
+    this -> blocksToRender = TDT4102::Point(10, 5); 
 }
 
-void amountOfBlocksToRender(const World& world){
-
+void GameWindow::amountOfBlocksToRender(){
+    this->blocksToRender.x = (this->width() / 32) + 1; // Vi legger til 1 for å være sikker på at vi rendrer nok blokker i kantene av vinduet.
+    this->blocksToRender.y = (this->height() / 32) + 1;
 }
 
 void GameWindow::updateWindowPosition(const World& world){
@@ -81,7 +82,7 @@ void GameWindow::updateWindow(const World& world){
                 this -> draw_image(topLeftCorner, image, 32, 32);
             }
         }
-    } 
+    }
 }
 
 void GameWindow::drawPlayer(const Player& player){

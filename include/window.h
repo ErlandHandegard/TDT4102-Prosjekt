@@ -24,7 +24,7 @@ class GameWindow : public TDT4102::AnimationWindow{
         /*
         Oppdaterer for vær frame. Denne skal ta inn antall monstre, spiller, NPC alt etter hvor langt vi kommer. 
         */
-        void amountOfBlocksToRender(const World& world);
+        void amountOfBlocksToRender();
         void updateWindowPosition(const World& world);
         void updateWindow(const World& world);
         void drawPlayer(const Player& player);

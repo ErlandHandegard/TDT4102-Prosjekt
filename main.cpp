@@ -12,6 +12,7 @@ int main() {
     World world1("eworlds/firstWorld.txt");
 
     while(!gameWindow.should_close()){
+        gameWindow.amountOfBlocksToRender();
         gameWindow.updateWindowPosition(world1);
         player.move(world1, gameWindow);
         gameWindow.updateWindow(world1);
