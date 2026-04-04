@@ -9,7 +9,7 @@ int main() {
 
     Player player({100, 100});
 
-    World world1("eworlds/firstWorld.txt");
+    World world1("eworlds/physicsTestWorld.txt");
 
     while(!gameWindow.should_close()){
         //Oppdaterer antall blokker som skal rendres
