@@ -12,6 +12,7 @@ class Player {
         TDT4102::Point gridPosition; 
         TDT4102::Point velocity;
         TDT4102::Point acceleration;
+        TDT4102::Point playerSize;
     public:
         Player(TDT4102::Point strartingPosition); // Må laste inn ett bilde av karakteren og sette det som sprite.
         
