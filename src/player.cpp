@@ -11,76 +11,95 @@ Player::Player(TDT4102::Point strartingPosition){
 }
 
 void Player::move(const World& world, const GameWindow& gameWindow) {
-    //Oppdater posisjonen basert på hastighet og akselerasjon først
+    //Håndterer spiller input for bevegelse frem og tilbake. 
+    if (gameWindow.is_key_down(KeyboardKey::A)) {
+        this->velocity.x = -5;
+    } else if (gameWindow.is_key_down(KeyboardKey::D)) {
+        this->velocity.x = 5;
+    } else {
+        this->velocity.x = 0;
+    }
+
+    //Tyngdekraften påvirker spilleren hele tiden, 
+    // så vi legger til akselerasjonen i hastigheten hver frame
     this -> velocity.y += this -> acceleration.y;
-    this -> velocity.x += this -> acceleration.x;
+    
+
+    //Legg inn akselerasjon i motsattretning av x hastighet. 
+    // Ser på dette senere
+
+    //Oppdaterer posisjonen til spilleren basert på hastigheten
     this -> position.y += this -> velocity.y;
     this -> position.x += this -> velocity.x;
 
+    //Bruker dette som base for å sjekke kollisjoner. 
+    // Det er posisjonen til spilleren i gridet, og det er det vi bruker for å sjekke kollisjoner.
     this -> gridPosition.x = position.x / 32; // Dette er posisojonen til øvre venstre hjørne av spilleren
     this -> gridPosition.y = position.y / 32; 
 
+    //Henter kollisjonsmatrisen fra verdenen, og størrelsen på verdenen i blokker.
     std::vector<std::vector<bool>> collitionMatrix = world.getCollitionMatrix();
     int worldWidthInBlocks = world.getWorldSizeInBlocks().x;
     int worldHeightInBlocks = world.getWorldSizeInBlocks().y;
 
     //Pågrunn av bredden til spilleren må vi av og til sjekke tre blokker i bredden
     // og av og til skjekke to blokker. Det gjør disse testene. 
-    bool checkForThreeBlocks = 0;
+    bool onGround = 0;
     if (position.x - gridPosition.x * 32 > 24) {
-        checkForThreeBlocks = 1;
-    }
-
-    if (checkForThreeBlocks){
-        //Først sjekker vi bakken slik at spilleren får hoppe og ikke faller gjennom bakken.
-        if (this -> velocity.y >= 0 &&
-            (collitionMatrix[gridPosition.y + 3][gridPosition.x] || 
-            collitionMatrix[gridPosition.y + 3][gridPosition.x + 1] || 
-            collitionMatrix[gridPosition.y + 3][gridPosition.x + 2])) {
-            this -> velocity.y = 0; // Slutter å falle hvis det er en blokk under
-            this -> position.y = gridPosition.y * 32 + 16; // Legger spilleren i rett posisjon i forhold til blokken
-        }
-        //Sjekk for kollisjon til i taket
-        if (this -> velocity.y < 0 &&
-            (collitionMatrix[gridPosition.y - 1][gridPosition.x] || 
-            collitionMatrix[gridPosition.y - 1][gridPosition.x + 1] || 
-            collitionMatrix[gridPosition.y - 1][gridPosition.x + 2])) {
-            this -> velocity.y = 0; // Sender spilleren nedover hvis det er en blokk i taket
-            this -> position.y = (gridPosition.y) * 32; // Legger spilleren i rett posisjon i forhold til blokken
-        }
+        onGround =  collitionMatrix[gridPosition.y + 3][gridPosition.x] ||
+                    collitionMatrix[gridPosition.y + 3][gridPosition.x + 1] ||
+                    collitionMatrix[gridPosition.y + 3][gridPosition.x + 2];
     } else {
-        //Først sjekker vi bakken slik at spilleren får hoppe og ikke faller gjennom bakken.
-        if (this -> velocity.y >= 0 && 
-            (collitionMatrix[gridPosition.y + 3][gridPosition.x] || 
-            collitionMatrix[gridPosition.y + 3][gridPosition.x + 1])) {
-            this -> velocity.y = 0; // Stop falling if there's a block below
-            this -> position.y = gridPosition.y * 32 + 16; // Align player with the block
-        }
-        //Sjekk for kollisjon til i taket
-        if (this -> velocity.y < 0 &&
-            (collitionMatrix[gridPosition.y - 1][gridPosition.x] || 
-            collitionMatrix[gridPosition.y - 1][gridPosition.x + 1])) {
-            this -> velocity.y = 0; // Sender spilleren nedover hvis det er en blokk i taket
-            this -> position.y = (gridPosition.y) * 32; // Legger spilleren i rett posisjon i forhold til blokken
-        }
+        onGround = collitionMatrix[gridPosition.y + 3][gridPosition.x] ||
+                   collitionMatrix[gridPosition.y + 3][gridPosition.x + 1];
     }
-
-    //Sjekk for kollisjon til venstre og høyre.
-
-    //Spiller inputs
 
     //Hopping
-    if (gameWindow.is_key_down(KeyboardKey::SPACE) && 
-        (collitionMatrix[gridPosition.y + 3][gridPosition.x] || 
-        collitionMatrix[gridPosition.y + 3][gridPosition.x + 1])) {
-        this -> velocity.y = -15; // Jumping velocity
+    if (gameWindow.is_key_down(KeyboardKey::SPACE) && onGround) {
+        this -> velocity.y = -10; // Jumping velocity
     }
-    // Bevegelse frem og tilbake
-    if (gameWindow.is_key_down(KeyboardKey::A)) {
-        this -> velocity.x = -5; // Move left
-    } else if (gameWindow.is_key_down(KeyboardKey::D)) {
-        this -> velocity.x = 5; // Move right
-    } else {
-        this -> velocity.x = 0; // Stop horizontal movement when neither A nor D is pressed
+
+    // --- VERTIKAL MOVEMENT MED STEP (hindrer tunneling) ---
+    int steps = abs((int)this->velocity.y);
+    int direction = (this->velocity.y > 0) ? 1 : -1;
+
+    for (int i = 0; i < steps; i++) {
+
+        this->position.y += direction;
+
+        // Oppdater grid etter hver lille bevegelse
+        this->gridPosition.x = this->position.x / 32;
+        this->gridPosition.y = this->position.y / 32;
+
+        // Sjekk hvor mange blokker vi må teste i bredden
+        int left = this->position.x / 32;
+        int right = (this->position.x + 39) / 32; // 40px bred
+
+        if (direction < 0) {
+            int topY = this->position.y / 32;
+
+            for (int x = left; x <= right; x++) {
+                if (collitionMatrix[topY][x]) {
+                    this->velocity.y = 0;
+                    this->position.y = (topY + 1) * 32;
+                    goto endVertical; // bryt ut av begge loops
+                }
+            }
+        }
+
+        if (direction > 0) {
+            int bottomY = (this->position.y + 79) / 32; // 80px høy
+
+            for (int x = left; x <= right; x++) {
+                if (collitionMatrix[bottomY][x]) {
+                    this->velocity.y = 0;
+                    this->position.y = bottomY * 32 - 80;
+                    goto endVertical;
+                }
+            }
+        }
     }
+    endVertical:;
+    
+    //Sjekk for kollisjon til venstre og høyre.
 }
