@@ -13,9 +13,9 @@ Player::Player(TDT4102::Point strartingPosition){
 void Player::move(const World& world, const GameWindow& gameWindow) {
     //Håndterer spiller input for bevegelse frem og tilbake. 
     if (gameWindow.is_key_down(KeyboardKey::A)) {
-        this->velocity.x = -1;
+        this->velocity.x = -5;
     } else if (gameWindow.is_key_down(KeyboardKey::D)) {
-        this->velocity.x = 1;
+        this->velocity.x = 5;
     } else {
         this->velocity.x = 0;
     }
@@ -24,18 +24,8 @@ void Player::move(const World& world, const GameWindow& gameWindow) {
     // så vi legger til akselerasjonen i hastigheten hver frame
     this -> velocity.y += this -> acceleration.y;
     
-
     //Legg inn akselerasjon i motsattretning av x hastighet. 
     // Ser på dette senere
-
-    //Oppdaterer posisjonen til spilleren basert på hastigheten
-    this -> position.y += this -> velocity.y;
-    this -> position.x += this -> velocity.x;
-
-    //Bruker dette som base for å sjekke kollisjoner. 
-    // Det er posisjonen til spilleren i gridet, og det er det vi bruker for å sjekke kollisjoner.
-    this -> gridPosition.x = position.x / 32; // Dette er posisojonen til øvre venstre hjørne av spilleren
-    this -> gridPosition.y = position.y / 32; 
 
     //Henter kollisjonsmatrisen fra verdenen, og størrelsen på verdenen i blokker.
     std::vector<std::vector<bool>> collitionMatrix = world.getCollitionMatrix();
@@ -56,7 +46,7 @@ void Player::move(const World& world, const GameWindow& gameWindow) {
 
     //Hopping
     if (gameWindow.is_key_down(KeyboardKey::SPACE) && onGround) {
-        this -> velocity.y = -10; // Jumping velocity
+        this -> velocity.y = -15; // Jumping velocity
     }
 
     // Legger inn steps slik at vi ikke får tunnelering i vertikal retning.
