@@ -13,9 +13,9 @@ Player::Player(TDT4102::Point strartingPosition){
 void Player::move(const World& world, const GameWindow& gameWindow) {
     //Håndterer spiller input for bevegelse frem og tilbake. 
     if (gameWindow.is_key_down(KeyboardKey::A)) {
-        this->velocity.x = -5;
+        this->velocity.x = -1;
     } else if (gameWindow.is_key_down(KeyboardKey::D)) {
-        this->velocity.x = 5;
+        this->velocity.x = 1;
     } else {
         this->velocity.x = 0;
     }
@@ -59,7 +59,7 @@ void Player::move(const World& world, const GameWindow& gameWindow) {
         this -> velocity.y = -10; // Jumping velocity
     }
 
-    // --- VERTIKAL MOVEMENT MED STEP (hindrer tunneling) ---
+    // Legger inn steps slik at vi ikke får tunnelering i vertikal retning.
     int steps = abs((int)this->velocity.y);
     int direction = (this->velocity.y > 0) ? 1 : -1;
 
@@ -100,6 +100,45 @@ void Player::move(const World& world, const GameWindow& gameWindow) {
         }
     }
     endVertical:;
-    
+
     //Sjekk for kollisjon til venstre og høyre.
+    //Her også legger vi inn steps for å unngå tunneling i horisontal retning.
+    int stepsX = abs((int)this->velocity.x);
+    int directionX = (this->velocity.x > 0) ? 1 : -1;
+
+    for (int i = 0; i < stepsX; i++) {
+        this->position.x += directionX;
+
+        // Oppdater grid etter hver lille bevegelse
+        this->gridPosition.x = this->position.x / 32;
+        this->gridPosition.y = this->position.y / 32;
+
+        int top = this->position.y / 32;
+        int bottom = (this->position.y + 79) / 32; // 80px høy
+
+        if (directionX < 0) {
+            int leftX = this->position.x / 32;
+
+            for (int y = top; y <= bottom; y++) {
+                if (collitionMatrix[y][leftX]) {
+                    this->velocity.x = 0;
+                    this->position.x = (leftX + 1) * 32;
+                    goto endHorizontal; // bryt ut av begge loops
+                }
+            }
+        }
+
+        if (directionX > 0) {
+            int rightX = (this->position.x + 39) / 32; // 40px bred
+
+            for (int y = top; y <= bottom; y++) {
+                if (collitionMatrix[y][rightX]) {
+                    this->velocity.x = 0;
+                    this->position.x = rightX * 32 - 40;
+                    goto endHorizontal;
+                }
+            }
+        }
+    }
+    endHorizontal:;
 }
