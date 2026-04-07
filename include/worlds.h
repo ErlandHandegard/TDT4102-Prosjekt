@@ -34,13 +34,10 @@ class World{
         /*
         Funksjon som 
 
-        antall mobs
-
-        spiller
-
         ødelegg
 
         plasser
         */
 
+        void saveWorld(const std::string &filePath);
 };

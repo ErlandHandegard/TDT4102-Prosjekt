@@ -36,5 +36,9 @@ World::World(const std::string &filePath){
 }
 
 void World::worldGenerator(){
+    
+}
+
+void World::saveWorld(const std::string &filePath){
 
 }
