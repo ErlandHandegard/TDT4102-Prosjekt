@@ -1,6 +1,15 @@
+#include <cmath>
 #include "include/player.h"
 #include "include/window.h"
 #include "include/worlds.h"
+
+bool isCollision(const std::vector<std::vector<bool>>& matrix, int x, int y) {
+    if (y < 0 || y >= matrix.size() ||
+        x < 0 || x >= matrix[y].size()) {
+        return true; // utenfor verden = solid
+    }
+    return matrix[y][x];
+}
 
 Player::Player(TDT4102::Point strartingPosition){
     this -> health = 400;
@@ -28,20 +37,20 @@ void Player::move(const World& world, const GameWindow& gameWindow) {
     // Ser på dette senere
 
     //Henter kollisjonsmatrisen fra verdenen, og størrelsen på verdenen i blokker.
-    std::vector<std::vector<bool>> collitionMatrix = world.getCollitionMatrix();
-    int worldWidthInBlocks = world.getWorldSizeInBlocks().x;
-    int worldHeightInBlocks = world.getWorldSizeInBlocks().y;
+    const auto& collitionMatrix = world.getCollitionMatrix();
 
-    //Pågrunn av bredden til spilleren må vi av og til sjekke tre blokker i bredden
-    // og av og til skjekke to blokker. Det gjør disse testene. 
-    bool onGround = 0;
-    if (position.x - gridPosition.x * 32 > 24) {
-        onGround =  collitionMatrix[gridPosition.y + 3][gridPosition.x] ||
-                    collitionMatrix[gridPosition.y + 3][gridPosition.x + 1] ||
-                    collitionMatrix[gridPosition.y + 3][gridPosition.x + 2];
-    } else {
-        onGround = collitionMatrix[gridPosition.y + 3][gridPosition.x] ||
-                   collitionMatrix[gridPosition.y + 3][gridPosition.x + 1];
+    //Skjekker om spilleren er på bakken slik at han har lov å hoppe. 
+    bool onGround = false;
+
+    int left  = position.x / 32;
+    int right = (position.x + 39) / 32;
+    int y     = (position.y + 80) / 32;
+
+    for (int x = left; x <= right; x++) {
+        if (isCollision(collitionMatrix, x, y)) {
+            onGround = true;
+            break;
+        }
     }
 
     //Hopping
@@ -50,85 +59,80 @@ void Player::move(const World& world, const GameWindow& gameWindow) {
     }
 
     // Legger inn steps slik at vi ikke får tunnelering i vertikal retning.
-    int steps = abs((int)this->velocity.y);
-    int direction = (this->velocity.y > 0) ? 1 : -1;
+    int stepsY = abs((int)velocity.y);
+    int dirY = (velocity.y > 0) ? 1 : -1;
 
-    for (int i = 0; i < steps; i++) {
+    //Går gjennom hver step i vertikal retning og sjekker for kollisjon.
+    // Dersom det er kollisjon setter vi hastigheten i den retningen til 0 og plasserer spilleren rett ved siden av blokken han kolliderte med.
+    for (int i = 0; i < stepsY; i++) {
 
-        this->position.y += direction;
+        position.y += dirY;
 
-        // Oppdater grid etter hver lille bevegelse
-        this->gridPosition.x = this->position.x / 32;
-        this->gridPosition.y = this->position.y / 32;
+        int left   = position.x / 32;
+        int right  = (position.x + 39) / 32;
+        int top    = position.y / 32;
+        int bottom = (position.y + 79) / 32;
 
-        // Sjekk hvor mange blokker vi må teste i bredden
-        int left = this->position.x / 32;
-        int right = (this->position.x + 39) / 32; // 40px bred
+        bool hit = false;
 
-        if (direction < 0) {
-            int topY = this->position.y / 32;
-
+        if (dirY < 0) { // opp
             for (int x = left; x <= right; x++) {
-                if (collitionMatrix[topY][x]) {
-                    this->velocity.y = 0;
-                    this->position.y = (topY + 1) * 32;
-                    goto endVertical; // bryt ut av begge loops
+                if (isCollision(collitionMatrix, x, top)) {
+                    velocity.y = 0;
+                    position.y = (top + 1) * 32;
+                    hit = true;
+                    break;
+                }
+            }
+        } 
+        else { // ned
+            for (int x = left; x <= right; x++) {
+                if (isCollision(collitionMatrix, x, bottom)) {
+                    velocity.y = 0;
+                    position.y = bottom * 32 - 80;
+                    hit = true;
+                    break;
                 }
             }
         }
-
-        if (direction > 0) {
-            int bottomY = (this->position.y + 79) / 32; // 80px høy
-
-            for (int x = left; x <= right; x++) {
-                if (collitionMatrix[bottomY][x]) {
-                    this->velocity.y = 0;
-                    this->position.y = bottomY * 32 - 80;
-                    goto endVertical;
-                }
-            }
-        }
+        if (hit) break;
     }
-    endVertical:;
 
     //Sjekk for kollisjon til venstre og høyre.
     //Her også legger vi inn steps for å unngå tunneling i horisontal retning.
-    int stepsX = abs((int)this->velocity.x);
-    int directionX = (this->velocity.x > 0) ? 1 : -1;
+    int stepsX = abs((int)velocity.x);
+    int dirX = (velocity.x > 0) ? 1 : -1;
 
     for (int i = 0; i < stepsX; i++) {
-        this->position.x += directionX;
 
-        // Oppdater grid etter hver lille bevegelse
-        this->gridPosition.x = this->position.x / 32;
-        this->gridPosition.y = this->position.y / 32;
+        position.x += dirX;
 
-        int top = this->position.y / 32;
-        int bottom = (this->position.y + 79) / 32; // 80px høy
+        int left   = (int)floor(position.x / 32.0f);
+        int right  = (int)floor((position.x + 39) / 32.0f);
+        int top    = (int)floor(position.y / 32.0f);
+        int bottom = (int)floor((position.y + 79) / 32.0f);
 
-        if (directionX < 0) {
-            int leftX = this->position.x / 32;
+        bool hit = false;
 
+        if (dirX < 0) { // venstre
             for (int y = top; y <= bottom; y++) {
-                if (collitionMatrix[y][leftX]) {
-                    this->velocity.x = 0;
-                    this->position.x = (leftX + 1) * 32;
-                    goto endHorizontal; // bryt ut av begge loops
+                if (isCollision(collitionMatrix, left, y)) {
+                    velocity.x = 0;
+                    position.x = (left + 1) * 32;
+                    hit = true;
+                    break;
                 }
             }
-        }
-
-        if (directionX > 0) {
-            int rightX = (this->position.x + 39) / 32; // 40px bred
-
-            for (int y = top; y <= bottom; y++) {
-                if (collitionMatrix[y][rightX]) {
-                    this->velocity.x = 0;
-                    this->position.x = rightX * 32 - 40;
-                    goto endHorizontal;
-                }
+        } else { // høyre
+        for (int y = top; y <= bottom; y++) {
+            if (isCollision(collitionMatrix, right, y)) {
+                velocity.x = 0;
+                position.x = right * 32 - 40;
+                hit = true;
+                break;
             }
         }
     }
-    endHorizontal:;
+    if (hit) break;
+    }
 }
