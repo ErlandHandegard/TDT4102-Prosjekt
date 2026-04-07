@@ -29,8 +29,7 @@ World::World(const std::string &filePath){
         this -> collitionBlock.push_back(colitionActive);
         this -> worldBlocks.push_back(row);
     }
-
-    this->worldGrid = TDT4102::Point(static_cast<int>(this->worldBlocks.at(0).size()),
+    this -> worldGrid = TDT4102::Point(static_cast<int>(this->worldBlocks.at(0).size()),
     static_cast<int>(this->worldBlocks.size()));
 
     this -> worldPixelSize = TDT4102::Point((this -> worldGrid.x * 32), (this -> worldGrid.y * 32));
