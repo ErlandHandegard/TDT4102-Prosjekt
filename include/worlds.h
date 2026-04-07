@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include "AnimationWindow.h"
+#include "perlinNoise/FastNoiseLite.h"
 
 class World{
     private:
@@ -38,6 +39,7 @@ class World{
 
         plasser
         */
+        void growGrass();
 
         void saveWorld(const std::string &filePath);
 };

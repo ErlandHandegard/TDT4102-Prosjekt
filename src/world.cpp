@@ -36,7 +36,11 @@ World::World(const std::string &filePath){
 }
 
 void World::worldGenerator(){
-    
+
+}
+
+void World::growGrass(){
+
 }
 
 void World::saveWorld(const std::string &filePath){
