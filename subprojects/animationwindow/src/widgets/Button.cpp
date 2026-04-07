@@ -5,7 +5,7 @@ TDT4102::Button::Button(TDT4102::Point location, unsigned int width, unsigned in
     TDT4102::Widget(location, width, height),
     label{std::move(label)} {}
 
-void TDT4102::Button::update(nk_context *context) {
+void TDT4102::Button::update(nk_context *context, bool& eventHandled) {
 
     bool rightMouseIsDown = nk_input_has_mouse_click_down_in_rect(&context->input, NK_BUTTON_RIGHT, context->current->layout->clip, true);
     bool rightMouseIsBeingPressed = rightMouseIsDown && !lastRightMouseButtonState;
@@ -23,7 +23,10 @@ void TDT4102::Button::update(nk_context *context) {
     nk_style_push_style_item(context, &s->button.hover, nk_style_item_color(buttonColorHover));
     nk_style_push_style_item(context, &s->button.active, nk_style_item_color(buttonColorActive));
     if (nk_button_label(context, label.c_str()) || rightMouseIsBeingPressed || leftMouseIsBeingPressed) {
-        fire();
+        if(!eventHandled) {
+            fire();
+            eventHandled = true;
+        }
     }
     nk_style_pop_color(context);
     nk_style_pop_color(context);
