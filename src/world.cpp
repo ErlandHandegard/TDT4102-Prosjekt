@@ -48,7 +48,7 @@ void World::worldGenerator(const std::string &filePath, int worldWidth, int worl
     //Lager høyden for alle x-verdier
     for (int x = 0; x < worldWidth; ++x){
         int y = 10 * noise.GetNoise(x * 10.0f, 0.0f);
-        height.push_back((worldHeight*0.75) + y);
+        height.push_back((worldHeight*0.25) + y);
     }
     
     for (int y = 0; y < worldHeight; ++y){
@@ -62,7 +62,7 @@ void World::worldGenerator(const std::string &filePath, int worldWidth, int worl
             } else {
                 worldFile << "3";
             }
-            if (x < worldWidth){
+            if (x < worldWidth-1){
                 worldFile << ",";
             }
         }

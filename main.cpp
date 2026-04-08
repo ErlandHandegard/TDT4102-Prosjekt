@@ -12,8 +12,6 @@ int main() {
 
     World world1("eworlds/testWorldGenerator.txt");
 
-    
-
     while(!gameWindow.should_close()){
         //Oppdaterer antall blokker som skal rendres
         gameWindow.amountOfBlocksToRender();
