@@ -85,7 +85,7 @@ void GameWindow::updateWindowPosition(const World& world, const Player& player){
 //Funksjonen skal ta inn mobs, players og rett antall blocker. 
 void GameWindow::drawWindow(const World& world){
     //this -> setBackgroundColor(TDT4102::Color::dark_green);
-    std::vector<std::vector<std::string>> blocks = world.getBlocks();
+    const std::vector<std::vector<std::string>>& blocks = world.getBlocks();
 
     for (int i = this -> gridPosition.x; i < this -> gridPosition.x + this->blocksToRender.x; ++i){
         for (int j = this -> gridPosition.y; j < this -> gridPosition.y + this->blocksToRender.y; ++j){
