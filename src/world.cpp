@@ -42,12 +42,16 @@ void World::worldGenerator(const std::string &filePath, int worldWidth, int worl
     FastNoiseLite noise;
     noise.SetNoiseType(FastNoiseLite::NoiseType_Perlin);
 
+    //Liste for å legge til alle blokkene. 
+    std::vector<std::vector<std::string>> blocks;
+    
     //Vector som skal holde høyden på hver x posisjon.
+    // Denne er for å lage fjell på toppen. 
     std::vector<int> height; 
 
     //Lager høyden for alle x-verdier
     for (int x = 0; x < worldWidth; ++x){
-        int y = 10 * noise.GetNoise(x * 10.0f, 0.0f);
+        int y = 10 * noise.GetNoise(x * 5.0f, 0.0f);
         height.push_back((worldHeight*0.25) + y);
     }
     
@@ -68,6 +72,8 @@ void World::worldGenerator(const std::string &filePath, int worldWidth, int worl
         }
         worldFile << "\n";
     }
+
+    //Lager hull for grotter
 }
 
 void World::growGrass(){
