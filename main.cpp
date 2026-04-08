@@ -3,13 +3,16 @@
 #include "include/window.h"
 #include "include/player.h"
 #include "include/worlds.h"
+#include "include/perlinNoise/FastNoiseLite.h"
 
 int main() {
     GameWindow gameWindow({100, 100}, {14*32, 7*32}, "Game window");
 
     Player player({100, 100});
 
-    World world1("eworlds/firstWorld.txt");
+    World world1("eworlds/testWorldGenerator.txt");
+
+    
 
     while(!gameWindow.should_close()){
         //Oppdaterer antall blokker som skal rendres
@@ -25,5 +28,8 @@ int main() {
 
         gameWindow.next_frame();
     }
+
+    world1.worldGenerator("eworlds/testWorldGenerator.txt", 200, 100);
+
     return 0;
 }
