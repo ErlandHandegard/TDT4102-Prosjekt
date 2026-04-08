@@ -31,7 +31,7 @@ class World{
         skal den lage en verden å legge den inn i
         eworlds-mappen
         */
-        void worldGenerator();
+        void worldGenerator(const std::string &filePath, int worldWidth, int worldHeight);
         /*
         Funksjon som 
 

@@ -35,8 +35,39 @@ World::World(const std::string &filePath){
     this -> worldPixelSize = TDT4102::Point((this -> worldGrid.x * 32), (this -> worldGrid.y * 32));
 }
 
-void World::worldGenerator(){
+void World::worldGenerator(const std::string &filePath, int worldWidth, int worldHeight){
+    std::filesystem::path filename(filePath);
+    std::ofstream worldFile{filename};
 
+    FastNoiseLite noise;
+    noise.SetNoiseType(FastNoiseLite::NoiseType_Perlin);
+
+    //Vector som skal holde høyden på hver x posisjon.
+    std::vector<int> height; 
+
+    //Lager høyden for alle x-verdier
+    for (int x = 0; x < worldWidth; ++x){
+        int y = 10 * noise.GetNoise(x * 10.0f, 0.0f);
+        height.push_back((worldHeight*0.75) + y);
+    }
+    
+    for (int y = 0; y < worldHeight; ++y){
+        for (int x = 0; x < worldWidth; ++x){
+            if (y < height.at(x)){
+                worldFile << "0";
+            } else if (y == height.at(x)){
+                worldFile << "1";
+            } else if (y > height.at(x) && y < height.at(x) + 10){
+                worldFile << "2";
+            } else {
+                worldFile << "3";
+            }
+            if (x < worldWidth){
+                worldFile << ",";
+            }
+        }
+        worldFile << "\n";
+    }
 }
 
 void World::growGrass(){
