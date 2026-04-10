@@ -1,7 +1,7 @@
 #include "include/window.h"
 #include "include/worlds.h"
 #include "include/player.h"
-#include "include/mobs.h
+#include "include/Mobs/mobs.h"
 
 GameWindow::GameWindow(TDT4102::Point windowPosition, TDT4102::Point startingDimensions, const std::string& title):
     AnimationWindow(windowPosition.x, windowPosition.y, startingDimensions.x, startingDimensions.y, title)
@@ -114,8 +114,32 @@ void GameWindow::drawPlayer(const Player& player){
     this -> draw_rectangle(topLeftCorner, 40, 80, TDT4102::Color::blue); // Midlertidig, skal tegne spilleren som et rektangel før vi har laget sprites.
 }
 
-void GameWindow::drawMobs(std::vector<MobileEntities>
+void GameWindow::drawMobs(const std::vector<MobileEntities*>& mobs){
+    for(const MobileEntities* mob : mobs){
+        TDT4102::Point posTopLeft,
+                       posTopRight,
+                       posBottomLeft,
+                       posBottomRight = mob->getPosition();
 
+        posTopRight.x, posBottomRight.x += mob->getMobsize().x;
+        posBottomLeft.y, posBottomRight.y += mob->getMobsize().y;
+
+
+        TDT4102::Point topLeftWindow,
+                       topRightWindow, 
+                       bottomLeftWindow, 
+                       bottomRightWindow = this -> cameraPosition;
+
+        topRightWindow.x, bottomRightWindow.x += this->width();
+        bottomLeftWindow.y, bottomRightWindow.y += this->height();
+
+        if((topLeftWindow.x - posTopLeft.x && topLeftWindow.y -posTopLeft.y &&
+           -(topRightWindow.x - posTopRight.x) && topRightWindow.y - posTopRight.y &&
+           bottomLeftWindow.x - posBottomLeft.x && -(bottomLeftWindow.y -posTopLeft.y) &&
+           -(bottomRightWindow.x - posBottomRight.x) && -(bottomRightWindow.y - posBottomRight.y)) < 0);
+
+            this -> draw_rectangle(posTopLeft, mob->getMobsize().x, mob->getMobsize().y, TDT4102::Color::firebrick); // Midlertidig, skal tegne mobsene som et rektangel før vi har laget sprites.
+}
 void GameWindow::openGameMenu(){
 
 }

@@ -16,6 +16,7 @@ class MobileEntities{
         MobileEntities(TDT4102::Point startingPosition);
         int getHealth() const { return health; }
         TDT4102::Point getPosition() const { return position; }
+        TDT4102::Point getMobsize() const { return mobSize; }
 
         //void move(const World& world, const GameWindow& gameWindow);
         
