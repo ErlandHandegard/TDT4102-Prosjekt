@@ -28,6 +28,8 @@ int main() {
         gameWindow.drawWindow(world1);
         gameWindow.drawPlayer(player);
 
+        gameWindow.openGameMenu(player);
+
         gameWindow.next_frame();
     }
 

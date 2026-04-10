@@ -114,8 +114,25 @@ void GameWindow::drawPlayer(const Player& player){
     this -> draw_rectangle(topLeftCorner, 40, 80, TDT4102::Color::blue); // Midlertidig, skal tegne spilleren som et rektangel før vi har laget sprites.
 }
 
-void GameWindow::openGameMenu(){
+void GameWindow::openGameMenu(const Player& player){
+    if (TDT4102::AnimationWindow::is_key_down(KeyboardKey::ESCAPE)){
+        this -> openMeny = !this -> openMeny;
+    }
+    if (this -> openMeny){
+        for (int hotbarRows = 1; hotbarRows < 4; ++hotbarRows){
+            std::vector<char> bar = player.getInventory().at(hotbarRows);
+            for (int slot = 0; slot < 10; ++slot){
+                this -> draw_rectangle({(slot * 25) + 10, (hotbarRows * 25) + 10}, 20, 20, TDT4102::Color::aqua);
+                this -> draw_text({(slot * 25) + 11, (hotbarRows * 25) + 7}, std::string(1, bar.at(slot)));
+            }
+        }
+        //Legg inn knapper for save og load spiller og verden.
+
+    }
+    std::vector<char> hotbar = player.getInventory().at(0);
+    for (int slot = 0; slot < 10; ++slot){
+        this -> draw_rectangle({(slot * 25) + 10, 10}, 20, 20, TDT4102::Color::cornflower_blue);
+        this -> draw_text({(slot * 25) + 11, 7}, std::string(1, hotbar.at(slot)));
+    }
     
-
-
 }
