@@ -133,10 +133,10 @@ void GameWindow::drawMobs(const std::vector<MobileEntities*>& mobs){
         topRightWindow.x, bottomRightWindow.x += this->width();
         bottomLeftWindow.y, bottomRightWindow.y += this->height();
 
-        if((topLeftWindow.x - posTopLeft.x && topLeftWindow.y -posTopLeft.y &&
-           -(topRightWindow.x - posTopRight.x) && topRightWindow.y - posTopRight.y &&
-           bottomLeftWindow.x - posBottomLeft.x && -(bottomLeftWindow.y -posTopLeft.y) &&
-           -(bottomRightWindow.x - posBottomRight.x) && -(bottomRightWindow.y - posBottomRight.y)) < 0);
+        if((topLeftWindow.x - posTopLeft.x || topLeftWindow.y -posTopLeft.y ||
+           -(topRightWindow.x - posTopRight.x) || topRightWindow.y - posTopRight.y ||
+           bottomLeftWindow.x - posBottomLeft.x || -(bottomLeftWindow.y -posTopLeft.y) ||
+           -(bottomRightWindow.x - posBottomRight.x) || -(bottomRightWindow.y - posBottomRight.y)) < 0);
 
             this -> draw_rectangle(posTopLeft, mob->getMobsize().x, mob->getMobsize().y, TDT4102::Color::firebrick); // Midlertidig, skal tegne mobsene som et rektangel før vi har laget sprites.
 }
