@@ -90,6 +90,7 @@ void World::worldGenerator(const std::string &filePath, int worldWidth, int worl
                 blocks[x][y] = "3";
             } else {
                 blocks[x][y] = "0";
+                continue;
             }
             // Sjekk huler først
             float caveVal = caveNoise.GetNoise(fx, fy);
@@ -98,19 +99,31 @@ void World::worldGenerator(const std::string &filePath, int worldWidth, int worl
                 continue; // Gå til neste blokk, trenger ikke sjekke malm her
             }
 
-            // Sjekk malm (vi bruker forskjellige seeds ved å legge til offset i koordinatene)
-            // Dette er mer effektivt enn å ha 5 forskjellige støy-objekter!
-            float copperVal = oreNoise.GetNoise(fx + 100.0f, fy + 100.0f);
-            float ironVal = oreNoise.GetNoise(fx + 200.0f, fy + 200.0f);
-            float silverVal = oreNoise.GetNoise(fx + 300.0f, fy + 300.0f);
-            float goldVal = oreNoise.GetNoise(fx + 400.0f, fy + 40.0f);
+            if (blocks[x][y] == "3"){
+                float copperVal = oreNoise.GetNoise(fx + 100.0f, fy + 100.0f);
+                float ironVal = oreNoise.GetNoise(fx + 200.0f, fy + 200.0f);
+                float silverVal = oreNoise.GetNoise(fx + 300.0f, fy + 300.0f);
+                float goldVal = oreNoise.GetNoise(fx + 400.0f, fy + 40.0f);
 
-            if (blocks[x][y] == "3" && goldVal > 0.85f) blocks[x][y] = "5";
-            else if (blocks[x][y] == "3" && silverVal > 0.80f) blocks[x][y] = "7";
-            else if (blocks[x][y] == "3" && ironVal > 0.75f) blocks[x][y] = "6";
-            else if (blocks[x][y] == "3" && copperVal > 0.70f) blocks[x][y] = "4";
+                if (goldVal > 0.85f) blocks[x][y] = "5";
+                else if (silverVal > 0.80f) blocks[x][y] = "7";
+                else if (ironVal > 0.75f) blocks[x][y] = "6";
+                else if (copperVal > 0.70f) blocks[x][y] = "4";
+            }
         }
     }
+
+    std::ofstream worldFile{filePath};
+    if (worldFile.is_open()) {
+        for (int y = 0; y < worldHeight; y++) {
+            for (int x = 0; x < worldWidth; x++) {
+                worldFile << blocks[x][y] << (x == worldWidth - 1 ? "" : ",");
+            }
+            worldFile << "\n";
+        }
+        worldFile.close();
+    }
+
 }
 
 void World::growGrass(){
