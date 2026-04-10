@@ -11,6 +11,9 @@ int main() {
     Player player({100, 100});
 
     World world1("eworlds/testWorldGenerator.txt");
+    
+    world1.worldGenerator("eworlds/testWorldGenerator.txt", 200, 100, 42);
+
 
     while(!gameWindow.should_close()){
         //Oppdaterer antall blokker som skal rendres
@@ -26,8 +29,6 @@ int main() {
 
         gameWindow.next_frame();
     }
-
-    world1.worldGenerator("eworlds/testWorldGenerator.txt", 200, 100, 42);
 
     return 0;
 }

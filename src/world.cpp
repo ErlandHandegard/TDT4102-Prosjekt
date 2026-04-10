@@ -39,24 +39,78 @@ void World::worldGenerator(const std::string &filePath, int worldWidth, int worl
     std::filesystem::path filename(filePath);
     std::ofstream worldFile{filename};
 
+    //Liste for å legge til alle blokkene. 
+    std::vector<std::vector<std::string>> blocks(worldWidth, std::vector<std::string>(worldHeight, "0"));
+
     FastNoiseLite noise;
     noise.SetNoiseType(FastNoiseLite::NoiseType_Perlin);
     noise.SetSeed(seed);
 
-    //Liste for å legge til alle blokkene. 
-    std::vector<std::vector<std::string>> blocks;
-    
     //Vector som skal holde høyden på hver x posisjon.
     // Denne er for å lage fjell på toppen. 
     std::vector<int> height; 
+    for (int x = 0; x < worldWidth; x++){
+        // Rå støy fra perlin funksjonen
+        float rawNoise = noise.GetNoise(static_cast<float>(x), 0.0f);
 
-    std::vector<std::vector<int>> caves;
-    std::vector<std::vector<int>> copper;
-    std::vector<std::vector<int>> iron;
-    std::vector<std::vector<int>> silver;
-    std::vector<std::vector<int>> gold;
+        // Finner avstanden fra sentrum slik at jeg kan ha større åser lengre ut i verden
+        float distanceFromCenter = std::abs((x - worldWidth / 2.0f) / (worldWidth / 2.0f));
+
+        // Her øker styrken med en eksponensial funksjon. Hadde vært kulere med ett 4. grads polinom slik at det ble 0 i kantene
+        float heightMultiplier = std::pow(distanceFromCenter, 2);
+
+        float finalHeight = (rawNoise * heightMultiplier * (worldHeight * 0.10f)) + (worldHeight * 0.75f);
+        height.push_back(static_cast<int>(finalHeight));
+    }
     
-    
+    // Konfigurer støy for huler
+    FastNoiseLite caveNoise;
+    caveNoise.SetNoiseType(FastNoiseLite::NoiseType_Perlin);
+    caveNoise.SetFrequency(0.05f); // Mellomstor frekvens for huler
+
+    //Bruke denne for hule lesing for å få slanger.
+    //std::abs(noise.GetNoise(x, y)) < 0.05f
+
+    //Konfigurer støy for ores
+    FastNoiseLite oreNoise; 
+    oreNoise.SetNoiseType(FastNoiseLite::NoiseType_Perlin);
+    oreNoise.SetFrequency(0.15f); // Høy frekvens gir små, spredte klumper
+
+    // En enkelt loop over verdenen
+    for (int x = 0; x < worldWidth; x++) {
+        for (int y = 0; y < worldHeight; y++) {
+            float fx = static_cast<float>(x);
+            float fy = static_cast<float>(y);
+
+            if (y = worldHeight - height[x]){
+                blocks[x][y] = "1";
+            } else if (y > worldHeight - height[x] && y < worldHeight - height[x] + 15) {
+                blocks[x][y] = "2";
+            } else if (y < worldHeight - height[x] + 15 ){
+                blocks[x][y] = "3";
+            } else {
+                blocks[x][y] = "0";
+            }
+            // Sjekk huler først
+            float caveVal = caveNoise.GetNoise(fx, fy);
+            if (caveVal > 0.6f) { // Kun luft hvis støyen er veldig høy
+                blocks[x][y] = "0";
+                continue; // Gå til neste blokk, trenger ikke sjekke malm her
+            }
+
+            // Sjekk malm (vi bruker forskjellige seeds ved å legge til offset i koordinatene)
+            // Dette er mer effektivt enn å ha 5 forskjellige støy-objekter!
+            float copperVal = oreNoise.GetNoise(fx + 100.0f, fy + 100.0f);
+            float ironVal = oreNoise.GetNoise(fx + 200.0f, fy + 200.0f);
+            float silverVal = oreNoise.GetNoise(fx + 300.0f, fy + 300.0f);
+            float goldVal = oreNoise.GetNoise(fx + 400.0f, fy + 40.0f);
+
+            if (blocks[x][y] == "3" && goldVal > 0.85f) blocks[x][y] = "5";
+            else if (blocks[x][y] == "3" && silverVal > 0.80f) blocks[x][y] = "7";
+            else if (blocks[x][y] == "3" && ironVal > 0.75f) blocks[x][y] = "6";
+            else if (blocks[x][y] == "3" && copperVal > 0.70f) blocks[x][y] = "4";
+        }
+    }
 }
 
 void World::growGrass(){
