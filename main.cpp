@@ -13,7 +13,7 @@ int main() {
 
     World world1("eworlds/testWorldGenerator.txt");
     
-    world1.worldGenerator("eworlds/testWorldGenerator.txt", 200, 100, 67);
+    //world1.worldGenerator("eworlds/testWorldGenerator.txt", 200, 100, 67);
 
 
     while(!gameWindow.should_close()){
