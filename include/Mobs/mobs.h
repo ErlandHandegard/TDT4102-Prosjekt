@@ -1,7 +1,8 @@
 #pragma once
 #include <iostream>
 #include "AnimationWindow.h"
-#include "include/worlds.h"
+#include "window.h"
+#include "worlds.h"
 
 class MobileEntities{
     private:
@@ -12,10 +13,10 @@ class MobileEntities{
         TDT4102::Point acceleration;
         TDT4102::Point mobSize;
     public:
-        MobileEntities(int type);
+        MobileEntities(TDT4102::Point startingPosition);
         int getHealth() const { return health; }
         TDT4102::Point getPosition() const { return position; }
 
-        void move(const World& world, const GameWindow& gameWindow);
-
+        //void move(const World& world, const GameWindow& gameWindow);
+        
 };

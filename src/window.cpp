@@ -1,6 +1,7 @@
 #include "include/window.h"
 #include "include/worlds.h"
 #include "include/player.h"
+#include "include/mobs.h
 
 GameWindow::GameWindow(TDT4102::Point windowPosition, TDT4102::Point startingDimensions, const std::string& title):
     AnimationWindow(windowPosition.x, windowPosition.y, startingDimensions.x, startingDimensions.y, title)
@@ -112,6 +113,8 @@ void GameWindow::drawPlayer(const Player& player){
     TDT4102::Point topLeftCorner(playerPosition.x - cameraPosition.x, playerPosition.y - cameraPosition.y);
     this -> draw_rectangle(topLeftCorner, 40, 80, TDT4102::Color::blue); // Midlertidig, skal tegne spilleren som et rektangel før vi har laget sprites.
 }
+
+void GameWindow::drawMobs(std::vector<MobileEntities>
 
 void GameWindow::openGameMenu(){
 
