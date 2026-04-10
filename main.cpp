@@ -27,7 +27,7 @@ int main() {
         gameWindow.next_frame();
     }
 
-    world1.worldGenerator("eworlds/testWorldGenerator.txt", 200, 100);
+    world1.worldGenerator("eworlds/testWorldGenerator.txt", 200, 100, 42);
 
     return 0;
 }

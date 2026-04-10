@@ -35,12 +35,13 @@ World::World(const std::string &filePath){
     this -> worldPixelSize = TDT4102::Point((this -> worldGrid.x * 32), (this -> worldGrid.y * 32));
 }
 
-void World::worldGenerator(const std::string &filePath, int worldWidth, int worldHeight){
+void World::worldGenerator(const std::string &filePath, int worldWidth, int worldHeight, int seed){
     std::filesystem::path filename(filePath);
     std::ofstream worldFile{filename};
 
     FastNoiseLite noise;
     noise.SetNoiseType(FastNoiseLite::NoiseType_Perlin);
+    noise.SetSeed(seed);
 
     //Liste for å legge til alle blokkene. 
     std::vector<std::vector<std::string>> blocks;
@@ -49,31 +50,13 @@ void World::worldGenerator(const std::string &filePath, int worldWidth, int worl
     // Denne er for å lage fjell på toppen. 
     std::vector<int> height; 
 
-    //Lager høyden for alle x-verdier
-    for (int x = 0; x < worldWidth; ++x){
-        int y = 10 * noise.GetNoise(x * 5.0f, 0.0f);
-        height.push_back((worldHeight*0.25) + y);
-    }
+    std::vector<std::vector<int>> caves;
+    std::vector<std::vector<int>> copper;
+    std::vector<std::vector<int>> iron;
+    std::vector<std::vector<int>> silver;
+    std::vector<std::vector<int>> gold;
     
-    for (int y = 0; y < worldHeight; ++y){
-        for (int x = 0; x < worldWidth; ++x){
-            if (y < height.at(x)){
-                worldFile << "0";
-            } else if (y == height.at(x)){
-                worldFile << "1";
-            } else if (y > height.at(x) && y < height.at(x) + 10){
-                worldFile << "2";
-            } else {
-                worldFile << "3";
-            }
-            if (x < worldWidth-1){
-                worldFile << ",";
-            }
-        }
-        worldFile << "\n";
-    }
-
-    //Lager hull for grotter
+    
 }
 
 void World::growGrass(){
