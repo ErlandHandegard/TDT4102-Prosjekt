@@ -20,4 +20,4 @@ else
   ld_flags = []
 endif
 
-exe = executable('program', src, dependencies : [std_lib_facilities_dep, animationwindow_dep], cpp_args : compiler_flags, link_args: ld_flags)
+exe = executable('program', src, dependencies : [std_lib_facilities_dep, animationwindow_dep], cpp_args : compiler_flags, link_args: ld_flags, include_directories : inc)
