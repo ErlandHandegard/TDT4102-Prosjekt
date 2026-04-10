@@ -5,6 +5,7 @@
 #include "include/worlds.h"
 #include "include/perlinNoise/FastNoiseLite.h"
 
+
 int main() {
     GameWindow gameWindow({100, 100}, {14*32, 7*32}, "Game window");
 
@@ -12,7 +13,7 @@ int main() {
 
     World world1("eworlds/testWorldGenerator.txt");
     
-    world1.worldGenerator("eworlds/testWorldGenerator.txt", 200, 100, 42);
+    world1.worldGenerator("eworlds/testWorldGenerator.txt", 200, 100, 67);
 
 
     while(!gameWindow.should_close()){
