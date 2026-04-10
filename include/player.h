@@ -13,8 +13,13 @@ class Player {
         TDT4102::Point velocity;
         TDT4102::Point acceleration;
         TDT4102::Point playerSize;
+        std::vector<std::vector<char>> inventory;
     public:
-        Player(TDT4102::Point strartingPosition); // Må laste inn ett bilde av karakteren og sette det som sprite.
+        //Skal lastes av vindu
+        std::vector<std::vector<char>> getInventory() const {return inventory;}
+        TDT4102::Point getGridPosition() const {return gridPosition;}
+
+        Player(TDT4102::Point strartingPosition, const std::string &filePath); // Må laste inn ett bilde av karakteren og sette det som sprite.
         
         int getHealth() const { return health; }
         TDT4102::Point getPosition() const { return position; }
@@ -28,4 +33,6 @@ class Player {
         // void mine();
 
         // void build();
+
+        void savePlayer();
 };

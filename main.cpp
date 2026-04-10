@@ -9,7 +9,7 @@
 int main() {
     GameWindow gameWindow({100, 100}, {14*32, 7*32}, "Game window");
 
-    Player player({100, 100});
+    Player player({100, 100}, "dplayer/examplePlayer.txt");
 
     World world1("eworlds/testWorldGenerator.txt");
     

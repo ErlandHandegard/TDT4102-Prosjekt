@@ -11,12 +11,27 @@ bool isCollision(const std::vector<std::vector<bool>>& matrix, int x, int y) {
     return matrix[y][x];
 }
 
-Player::Player(TDT4102::Point strartingPosition){
+Player::Player(TDT4102::Point strartingPosition, const std::string &filePath){
     this -> health = 400;
     this -> position = strartingPosition;
     this -> velocity = TDT4102::Point(0, 0);
     this -> acceleration = TDT4102::Point(0, 1);
     this -> playerSize = TDT4102::Point(40, 80);
+
+    std::filesystem::path filename(filePath);
+    std::ifstream playerInventory{filename};
+    std::string inventoryRow;
+
+    for (int i = 0; i < 4; ++i){
+        std::getline(playerInventory, inventoryRow);
+        std::vector<char> row;
+        for (char c : inventoryRow){
+            if (c != ','){
+                row.push_back(c);
+            }
+        }
+        this -> inventory.push_back(row);
+    }
 }
 
 void Player::move(const World& world, const GameWindow& gameWindow) {
@@ -135,4 +150,8 @@ void Player::move(const World& world, const GameWindow& gameWindow) {
     }
     if (hit) break;
     }
+}
+
+void Player::savePlayer(){
+
 }

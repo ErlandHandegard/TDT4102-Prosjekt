@@ -8,6 +8,7 @@ GameWindow::GameWindow(TDT4102::Point windowPosition, TDT4102::Point startingDim
     this -> gridPosition = TDT4102::Point(1, 1);
     this -> cameraPosition = TDT4102::Point(32,32);
     this -> blocksToRender = TDT4102::Point((this->width() / 32) + 1, (this->height() / 32) + 1); 
+    this -> openMeny = 0;
 }
 
 void GameWindow::amountOfBlocksToRender(){
@@ -114,5 +115,7 @@ void GameWindow::drawPlayer(const Player& player){
 }
 
 void GameWindow::openGameMenu(){
+    
+
 
 }
