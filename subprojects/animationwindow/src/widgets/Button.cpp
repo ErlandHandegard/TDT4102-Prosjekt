@@ -15,7 +15,7 @@ void TDT4102::Button::update(nk_context *context, bool& eventHandled) {
     nk_style_push_style_item(context, &s->button.normal, nk_style_item_color(buttonColor));
     nk_style_push_style_item(context, &s->button.hover, nk_style_item_color(buttonColorHover));
     nk_style_push_style_item(context, &s->button.active, nk_style_item_color(buttonColorActive));
-    if (nk_button_label(context, label.c_str())) {
+    if (nk_button_label(context, label.c_str()) || rightMouseIsBeingPressed || leftMouseIsBeingPressed) {
         if(!eventHandled) {
             fire();
             eventHandled = true;
