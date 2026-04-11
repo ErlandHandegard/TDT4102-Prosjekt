@@ -144,6 +144,7 @@ void World::worldGenerator(const std::string &filePath, int worldWidth, int worl
 }
 
 void World::growGrass() {
+    // Hadde vært kult å implementere random tick speed har.
     for (int x = 0; x < this->worldGrid.x; ++x) {
         for (int y = 1; y < this->worldGrid.y; ++y) {
             
