@@ -35,6 +35,14 @@ World::World(const std::string &filePath){
     this -> worldPixelSize = TDT4102::Point((this -> worldGrid.x * 32), (this -> worldGrid.y * 32));
 }
 
+void World::setBlock(TDT4102::Point gridPosition, std::string blockType){
+    this -> worldBlocks[gridPosition.x][gridPosition.y] = blockType; //Mulig disse må byttes og
+}
+
+void World::deleteBlock(TDT4102::Point gridPosition){
+    this -> worldBlocks[gridPosition.x][gridPosition.y] = "0"; //Mulig x og y må byttes
+}
+
 void World::worldGenerator(const std::string &filePath, int worldWidth, int worldHeight, int seed){
     //Liste for å legge til alle blokkene. 
     std::vector<std::vector<std::string>> blocks(worldWidth, std::vector<std::string>(worldHeight, "0"));

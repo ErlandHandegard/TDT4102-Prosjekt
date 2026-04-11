@@ -32,13 +32,11 @@ class World{
         eworlds-mappen
         */
         void worldGenerator(const std::string &filePath, int worldWidth, int worldHeight, int seed);
-        /*
-        Funksjon som 
+        
+        void setBlock(TDT4102::Point gridPosition, std::string blockType);
 
-        ødelegg
+        void deleteBlock(TDT4102::Point gridPosition);
 
-        plasser
-        */
         void growGrass();
 
         void saveWorld(const std::string &filePath);
