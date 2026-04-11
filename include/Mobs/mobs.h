@@ -5,7 +5,7 @@
 #include "worlds.h"
 
 class MobileEntities{
-    private:
+    protected:
         int health;
         TDT4102::Point position; 
         TDT4102::Point gridPosition; 
