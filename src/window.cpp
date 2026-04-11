@@ -122,7 +122,7 @@ void GameWindow::openGameMenu(const Player& player){
     if (TDT4102::AnimationWindow::is_key_down(KeyboardKey::ESCAPE)){
         this -> openMeny = !this -> openMeny;
     }
-    this -> draw_text({100, 100}, player.getAction());
+    this -> draw_text({100, 100}, player.getCurrentItem());
     // if (this -> openMeny){
     //     for (int hotbarRows = 1; hotbarRows < 4; ++hotbarRows){
     //         std::vector<char> bar = player.getInventory().at(hotbarRows);

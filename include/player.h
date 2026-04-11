@@ -17,6 +17,7 @@ class Player {
         int hotBarIndex; //Tall fra en til ti i hotbaren
         int currentBlockAmount; //Antall blokker om action er Build
         std::string action; //Tillatt handling er "attack", "Mine", "Build"
+        std::string currentItem;
     public:
         //Skal lastes av vindu
         std::vector<std::vector<std::string>> getInventory() const {return inventory;}
@@ -26,6 +27,7 @@ class Player {
         
         int getHealth() const { return health; }
         int getHotBarIndex() const { return hotBarIndex; }
+        std::string getCurrentItem() const { return currentItem; }
         std::string getAction() const { return action; }
         TDT4102::Point getPosition() const { return position; }
 
@@ -33,13 +35,14 @@ class Player {
 
         void desideCurrentAction(const GameWindow& gameWindow, World& world);
         
+        void executeAction(const GameWindow& gameWindow, World& world);
         // void attack();
 
         // void takeDamage(int damage);
 
         void mine(const GameWindow& gameWindow, World& world);
 
-        void build(const GameWindow& gameWindow, World& world);
+        void build(const GameWindow& gameWindow, World& world, std::string blockType);
 
         void updateInventory();
 

@@ -47,12 +47,33 @@ void Player::desideCurrentAction(const GameWindow& gameWindow, World& world){
     } else if (this -> hotBarIndex > 9){
         this -> hotBarIndex = 9;
     }
-    std::string findAction = this -> inventory.at(0).at(hotBarIndex);
+    std::string findAction = this -> inventory.at(0).at(this -> hotBarIndex);
     for (char c : findAction){
         this -> action += c;
         if (c == '*'){
             this -> action = "";
         }
+    }
+}
+
+void Player::executeAction(const GameWindow& gameWindow, World& world){
+    std::string findItem = this -> inventory.at(0).at(this -> hotBarIndex);
+    this -> currentItem = "";
+    for (char c : findItem){
+        if (c == '*'){
+            break;
+        } else {
+            this -> currentItem += c;
+        }
+    }
+    if (this -> action == "mine"){
+        this -> mine(gameWindow, world);
+    } else if (action == "0"){
+
+    } else if (action == "attack"){
+
+    } else {
+        this -> build(gameWindow, world, this -> currentItem);
     }
 }
 
@@ -62,9 +83,9 @@ void Player::mine(const GameWindow& gameWindow, World& world){
     }    
 }
 
-void Player::build(const GameWindow& gameWindow, World& world){
-    if (gameWindow.is_right_mouse_button_down()){
-        world.setBlock(gameWindow.getMouseGridPosition(), "1");
+void Player::build(const GameWindow& gameWindow, World& world, std::string blockType){
+    if (gameWindow.is_left_mouse_button_down()){
+        world.setBlock(gameWindow.getMouseGridPosition(), blockType);
     } 
 }
 

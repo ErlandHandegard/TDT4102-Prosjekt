@@ -24,8 +24,7 @@ int main() {
         gameWindow.updateWindowPosition(world1, player);
         player.move(gameWindow, world1);
         player.desideCurrentAction(gameWindow, world1);
-        // player.mine(gameWindow, world1);
-        // player.build(gameWindow, world1);
+        player.executeAction(gameWindow, world1);
         
         //Tegne funksjonene må legges til sist. 
         gameWindow.drawWindow(world1);
