@@ -69,12 +69,13 @@ void Player::executeAction(const GameWindow& gameWindow, World& world){
     if (this -> action == "mine"){
         this -> mine(gameWindow, world);
     } else if (action == "0"){
-
+        this -> currentItem = "0";
     } else if (action == "attack"){
 
     } else {
         this -> build(gameWindow, world, this -> currentItem);
     }
+    this -> inventory.at(0).at(this -> hotBarIndex) = currentItem + "*" + action;
 }
 
 void Player::mine(const GameWindow& gameWindow, World& world){
@@ -85,7 +86,9 @@ void Player::mine(const GameWindow& gameWindow, World& world){
 
 void Player::build(const GameWindow& gameWindow, World& world, std::string blockType){
     if (gameWindow.is_left_mouse_button_down()){
-        world.setBlock(gameWindow.getMouseGridPosition(), blockType);
+        if(world.setBlock(gameWindow.getMouseGridPosition(), blockType)){
+            this -> action = std::to_string(std::stoi(this -> action) - 1);
+        }  
     } 
 }
 

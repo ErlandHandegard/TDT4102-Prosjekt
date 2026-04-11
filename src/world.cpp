@@ -35,10 +35,13 @@ World::World(const std::string &filePath){
     this -> worldPixelSize = TDT4102::Point((this -> worldGrid.x * 32), (this -> worldGrid.y * 32));
 }
 
-void World::setBlock(TDT4102::Point gridPosition, std::string blockType){
+bool World::setBlock(TDT4102::Point gridPosition, std::string blockType){
     if (this -> collitionBlock[gridPosition.y][gridPosition.x] == 0){
         this -> worldBlocks[gridPosition.y][gridPosition.x] = blockType; //Mulig disse må byttes og
         this -> collitionBlock[gridPosition.y][gridPosition.x] = 1;
+        return 1;
+    } else {
+        return 0;
     }
 }
 

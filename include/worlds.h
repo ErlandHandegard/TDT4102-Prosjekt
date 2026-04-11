@@ -33,7 +33,7 @@ class World{
         */
         void worldGenerator(const std::string &filePath, int worldWidth, int worldHeight, int seed);
         
-        void setBlock(TDT4102::Point gridPosition, std::string blockType);
+        bool setBlock(TDT4102::Point gridPosition, std::string blockType);
 
         void deleteBlock(TDT4102::Point gridPosition);
 
