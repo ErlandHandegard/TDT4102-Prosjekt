@@ -40,6 +40,12 @@ void Player::mine(const GameWindow& gameWindow, World& world){
     }    
 }
 
+void Player::build(const GameWindow& gameWindow, World& world){
+    if (gameWindow.is_right_mouse_button_down()){
+        world.setBlock(gameWindow.getMouseGridPosition(), "1");
+    } 
+}
+
 void Player::move(const World& world, const GameWindow& gameWindow) {
     //Håndterer spiller input for bevegelse frem og tilbake. 
     if (gameWindow.is_key_down(KeyboardKey::A)) {
