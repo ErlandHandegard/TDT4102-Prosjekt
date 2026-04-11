@@ -15,9 +15,12 @@ class GameWindow : public TDT4102::AnimationWindow{
         TDT4102::Point cameraPosition;  //Skal være kameraposisjonen i pixelgriddet
         TDT4102::Point blocksToRender;  //Skal være en tuple med hvilke blokker i vær retning som skal rendere
         std::unordered_map<std::string, TDT4102::Image> imageCache;  // Cache for block images
+        TDT4102::Point mouseGridPosition;
+        TDT4102::Point mouseInventoryPosition; 
         bool openMeny;
         bool wasEscPressed;
     public: 
+        TDT4102::Point getMouseGridPosition (); 
         /*
         Bare initialiserer det første vinduet
         */

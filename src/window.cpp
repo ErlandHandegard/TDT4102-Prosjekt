@@ -11,6 +11,15 @@ GameWindow::GameWindow(TDT4102::Point windowPosition, TDT4102::Point startingDim
     this -> openMeny = 0;
 }
 
+TDT4102::Point GameWindow::getMouseGridPosition(){
+    TDT4102::Point mouseCoordinates = this -> get_mouse_coordinates();
+    mouseCoordinates.x += this -> cameraPosition.x;
+    mouseCoordinates.y += this -> cameraPosition.y;
+    mouseCoordinates.x = mouseCoordinates.x/32;
+    mouseCoordinates.y = mouseCoordinates.y/32;
+    return mouseCoordinates;
+}
+
 void GameWindow::amountOfBlocksToRender(){
     this->blocksToRender.x = (this->width() / 32) + 1; // Vi legger til 1 for å være sikker på at vi rendrer nok blokker i kantene av vinduet.
     this->blocksToRender.y = (this->height() / 32) + 2;
