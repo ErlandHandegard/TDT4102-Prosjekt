@@ -123,7 +123,9 @@ void GameWindow::openGameMenu(const Player& player){
             std::vector<char> bar = player.getInventory().at(hotbarRows);
             for (int slot = 0; slot < 10; ++slot){
                 this -> draw_rectangle({(slot * 25) + 10, (hotbarRows * 25) + 10}, 20, 20, TDT4102::Color::aqua);
-                this -> draw_text({(slot * 25) + 11, (hotbarRows * 25) + 7}, std::string(1, bar.at(slot)));
+                if (bar.at(slot) != '0'){
+                    this -> draw_text({(slot * 25) + 11, (hotbarRows * 25) + 7}, std::string(1, bar.at(slot)));
+                }
             }
         }
         //Legg inn knapper for save og load spiller og verden.
@@ -132,7 +134,8 @@ void GameWindow::openGameMenu(const Player& player){
     std::vector<char> hotbar = player.getInventory().at(0);
     for (int slot = 0; slot < 10; ++slot){
         this -> draw_rectangle({(slot * 25) + 10, 10}, 20, 20, TDT4102::Color::cornflower_blue);
-        this -> draw_text({(slot * 25) + 11, 7}, std::string(1, hotbar.at(slot)));
+        if (hotbar.at(slot) != '0'){
+            this -> draw_text({(slot * 25) + 11, 7}, std::string(1, hotbar.at(slot)));
+        }
     }
-    
 }
