@@ -17,20 +17,42 @@ Player::Player(TDT4102::Point strartingPosition, const std::string &filePath){
     this -> velocity = TDT4102::Point(0, 0);
     this -> acceleration = TDT4102::Point(0, 1);
     this -> playerSize = TDT4102::Point(40, 80);
+    this -> hotBarIndex = 0;
 
     std::filesystem::path filename(filePath);
     std::ifstream playerInventory{filename};
     std::string inventoryRow;
 
+    //Denne må endres
     for (int i = 0; i < 4; ++i){
         std::getline(playerInventory, inventoryRow);
-        std::vector<char> row;
+        std::vector<std::string> row;
+        std::string item;
         for (char c : inventoryRow){
             if (c != ','){
-                row.push_back(c);
+                item += c;
+            } else {
+                row.push_back(item);
+                item = "";
             }
         }
         this -> inventory.push_back(row);
+    }
+}
+
+void Player::desideCurrentAction(const GameWindow& gameWindow, World& world){
+    this -> hotBarIndex -= gameWindow.get_delta_mouse_wheel();
+    if (this -> hotBarIndex < 0){
+        this -> hotBarIndex = 0;
+    } else if (this -> hotBarIndex > 9){
+        this -> hotBarIndex = 9;
+    }
+    std::string findAction = this -> inventory.at(0).at(hotBarIndex);
+    for (char c : findAction){
+        this -> action += c;
+        if (c == '*'){
+            this -> action = "";
+        }
     }
 }
 
@@ -46,7 +68,7 @@ void Player::build(const GameWindow& gameWindow, World& world){
     } 
 }
 
-void Player::move(const World& world, const GameWindow& gameWindow) {
+void Player::move(const GameWindow& gameWindow, const World& world) {
     //Håndterer spiller input for bevegelse frem og tilbake. 
     if (gameWindow.is_key_down(KeyboardKey::A)) {
         this->velocity.x = -5;
@@ -162,6 +184,10 @@ void Player::move(const World& world, const GameWindow& gameWindow) {
     }
     if (hit) break;
     }
+}
+
+void Player::updateInventory(){
+
 }
 
 void Player::savePlayer(){
