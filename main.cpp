@@ -23,7 +23,7 @@ int main() {
         //Uppdaterer posisjonen til vinduet og spilleren
         gameWindow.updateWindowPosition(world1, player);
         player.move(gameWindow, world1);
-        player.desideCurrentAction(gameWindow, world1);
+        player.desideCurrentAction(gameWindow);
         player.executeAction(gameWindow, world1);
         world1.growGrass();
         

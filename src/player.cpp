@@ -40,7 +40,7 @@ Player::Player(TDT4102::Point strartingPosition, const std::string &filePath){
     }
 }
 
-void Player::desideCurrentAction(const GameWindow& gameWindow, World& world){ 
+void Player::desideCurrentAction(const GameWindow& gameWindow){ 
     //Denne funksjonen bestemmer hvilken handling som er lov gitt hvilken item man har
     this -> hotBarIndex -= gameWindow.get_delta_mouse_wheel();
     if (this -> hotBarIndex < 0){

@@ -8,6 +8,7 @@
 
 class World;
 class Player;
+class ItemDrop;
 
 class GameWindow : public TDT4102::AnimationWindow{
     private: 

@@ -33,7 +33,7 @@ class Player {
 
         void move(const GameWindow& gameWindow, const World& world);
 
-        void desideCurrentAction(const GameWindow& gameWindow, World& world);
+        void desideCurrentAction(const GameWindow& gameWindow);
         
         void executeAction(const GameWindow& gameWindow, World& world);
         // void attack();
