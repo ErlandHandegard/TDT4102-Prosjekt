@@ -14,6 +14,8 @@ class Player {
         TDT4102::Point acceleration;
         TDT4102::Point playerSize;
         std::vector<std::vector<char>> inventory;
+        int itemInHand;
+        std::string action;
     public:
         //Skal lastes av vindu
         std::vector<std::vector<char>> getInventory() const {return inventory;}
@@ -30,9 +32,9 @@ class Player {
 
         // void takeDamage(int damage);
 
-        // void mine();
+        void mine(const GameWindow& gameWindow, World& world);
 
-        // void build();
+        void build(const GameWindow& gameWindow, World& world);
 
         void savePlayer();
 };

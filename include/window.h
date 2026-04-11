@@ -20,7 +20,7 @@ class GameWindow : public TDT4102::AnimationWindow{
         bool openMeny;
         bool wasEscPressed;
     public: 
-        TDT4102::Point getMouseGridPosition (); 
+        TDT4102::Point getMouseGridPosition () const {return mouseGridPosition;}
         /*
         Bare initialiserer det første vinduet
         */

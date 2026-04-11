@@ -23,6 +23,7 @@ int main() {
         //Uppdaterer posisjonen til vinduet og spilleren
         gameWindow.updateWindowPosition(world1, player);
         player.move(world1, gameWindow);
+        player.mine(gameWindow, world1);
         
         //Tegne funksjonene må legges til sist. 
         gameWindow.drawWindow(world1);

@@ -34,6 +34,12 @@ Player::Player(TDT4102::Point strartingPosition, const std::string &filePath){
     }
 }
 
+void Player::mine(const GameWindow& gameWindow, World& world){
+    if (gameWindow.is_left_mouse_button_down()){
+        world.deleteBlock(gameWindow.getMouseGridPosition());
+    }    
+}
+
 void Player::move(const World& world, const GameWindow& gameWindow) {
     //Håndterer spiller input for bevegelse frem og tilbake. 
     if (gameWindow.is_key_down(KeyboardKey::A)) {

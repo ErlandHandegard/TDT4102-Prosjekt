@@ -36,11 +36,13 @@ World::World(const std::string &filePath){
 }
 
 void World::setBlock(TDT4102::Point gridPosition, std::string blockType){
-    this -> worldBlocks[gridPosition.x][gridPosition.y] = blockType; //Mulig disse må byttes og
+    this -> worldBlocks[gridPosition.y][gridPosition.x] = blockType; //Mulig disse må byttes og
+    this -> collitionBlock[gridPosition.y][gridPosition.x] = 0;
 }
 
 void World::deleteBlock(TDT4102::Point gridPosition){
-    this -> worldBlocks[gridPosition.x][gridPosition.y] = "0"; //Mulig x og y må byttes
+    this -> worldBlocks[gridPosition.y][gridPosition.x] = "0"; //Mulig x og y må byttes
+    this -> collitionBlock[gridPosition.y][gridPosition.x] = 0;
 }
 
 void World::worldGenerator(const std::string &filePath, int worldWidth, int worldHeight, int seed){
