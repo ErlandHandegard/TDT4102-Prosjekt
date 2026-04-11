@@ -25,6 +25,7 @@ int main() {
         player.move(gameWindow, world1);
         player.desideCurrentAction(gameWindow, world1);
         player.executeAction(gameWindow, world1);
+        world1.growGrass();
         
         //Tegne funksjonene må legges til sist. 
         gameWindow.drawWindow(world1);

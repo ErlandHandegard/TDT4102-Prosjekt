@@ -143,8 +143,20 @@ void World::worldGenerator(const std::string &filePath, int worldWidth, int worl
 
 }
 
-void World::growGrass(){
+void World::growGrass() {
+    for (int x = 0; x < this->worldGrid.x; ++x) {
+        for (int y = 1; y < this->worldGrid.y; ++y) {
+            
+            std::string& currentBlock = this->worldBlocks.at(y).at(x);
+            std::string& blockAbove = this->worldBlocks.at(y - 1).at(x);
 
+            if (currentBlock == "2" && blockAbove == "0") {
+                currentBlock = "1";
+            } else if (currentBlock == "1" && blockAbove != "0") {
+                currentBlock = "2";
+            }
+        }
+    }
 }
 
 void World::saveWorld(const std::string &filePath){
