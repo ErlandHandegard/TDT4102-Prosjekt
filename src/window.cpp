@@ -114,32 +114,38 @@ void GameWindow::drawPlayer(const Player& player){
     this -> draw_rectangle(topLeftCorner, 40, 80, TDT4102::Color::blue); // Midlertidig, skal tegne spilleren som et rektangel før vi har laget sprites.
 }
 
-void GameWindow::drawMobs(const std::vector<MobileEntities*>& mobs){
-    for(const MobileEntities* mob : mobs){
-        TDT4102::Point posTopLeft,
-                       posTopRight,
-                       posBottomLeft,
-                       posBottomRight = mob->getPosition();
+void GameWindow::drawMobs(const std::vector<std::unique_ptr<MobileEntities>>& mobs){
+    for(const std::unique_ptr<MobileEntities>& mob : mobs){
+        TDT4102::Point posTopLeft = mob->getPosition();
+        TDT4102::Point posTopRight = mob->getPosition();
+        TDT4102::Point posBottomLeft = mob->getPosition();
+        TDT4102::Point posBottomRight = mob->getPosition();
 
-        posTopRight.x, posBottomRight.x += mob->getMobsize().x;
-        posBottomLeft.y, posBottomRight.y += mob->getMobsize().y;
+        posTopRight.x += mob->getMobsize().x;
+        posBottomRight.x += mob->getMobsize().x;
+        posBottomLeft.y += mob->getMobsize().y;
+        posBottomRight.y += mob->getMobsize().y;
 
 
-        TDT4102::Point topLeftWindow,
-                       topRightWindow, 
-                       bottomLeftWindow, 
-                       bottomRightWindow = this -> cameraPosition;
+        TDT4102::Point topLeftWindow = this -> cameraPosition;
+        // TDT4102::Point topRightWindow = mob->getPosition();
+        // TDT4102::Point posBottomLeft = mob->getPosition();
+        // TDT4102::Point posBottomRight = mob->getPosition();
 
-        topRightWindow.x, bottomRightWindow.x += this->width();
-        bottomLeftWindow.y, bottomRightWindow.y += this->height();
+        // posTopRight.x += mob->getMobsize().x;
+        // posBottomRight.x += mob->getMobsize().x;
+        // posBottomLeft.y += mob->getMobsize().y;
+        // posBottomRight.y += mob->getMobsize().y;
 
-        if((topLeftWindow.x - posTopLeft.x || topLeftWindow.y -posTopLeft.y ||
-           -(topRightWindow.x - posTopRight.x) || topRightWindow.y - posTopRight.y ||
-           bottomLeftWindow.x - posBottomLeft.x || -(bottomLeftWindow.y -posTopLeft.y) ||
-           -(bottomRightWindow.x - posBottomRight.x) || -(bottomRightWindow.y - posBottomRight.y)) < 0);
+        // if(topLeftWindow.x - posTopLeft.x < 0 || topLeftWindow.y -posTopLeft.y < 0 ||
+        //    -(topRightWindow.x - posTopRight.x) < 0 || topRightWindow.y - posTopRight.y < 0 ||
+        //    bottomLeftWindow.x - posBottomLeft.x < 0 || -(bottomLeftWindow.y -posTopLeft.y) < 0 ||
+        //    -(bottomRightWindow.x - posBottomRight.x) < 0 || -(bottomRightWindow.y - posBottomRight.y) < 0){
 
-            this -> draw_rectangle(posTopLeft, mob->getMobsize().x, mob->getMobsize().y, TDT4102::Color::firebrick); // Midlertidig, skal tegne mobsene som et rektangel før vi har laget sprites.
+        this -> draw_rectangle({(posTopLeft.x - topLeftWindow.x),posTopLeft.y - topLeftWindow.y}, mob->getMobsize().x, mob->getMobsize().y, TDT4102::Color::firebrick); // Midlertidig, skal tegne mobsene som et rektangel før vi har laget sprites.
+//}
 }
-void GameWindow::openGameMenu(){
-
 }
+// void GameWindow::openGameMenu(){
+
+// }

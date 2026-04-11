@@ -3,11 +3,15 @@
 #include "include/window.h"
 #include "include/player.h"
 #include "include/worlds.h"
+#include "include/Mobs/mobs.h"
 
 int main() {
     GameWindow gameWindow({100, 100}, {14*32, 7*32}, "Game window");
 
     Player player({100, 100});
+    std::vector<std::unique_ptr<MobileEntities>> mobs;
+    std::unique_ptr<MobileEntities> mobPtr = std::make_unique<MobileEntities>(TDT4102::Point {30,150});
+    mobs.push_back(std::move(mobPtr));
 
     World world1("eworlds/physicsTestWorld.txt");
 
@@ -22,6 +26,7 @@ int main() {
         //Tegne funksjonene må legges til sist. 
         gameWindow.drawWindow(world1);
         gameWindow.drawPlayer(player);
+        gameWindow.drawMobs(mobs);
 
         gameWindow.next_frame();
     }

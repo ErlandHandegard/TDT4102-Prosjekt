@@ -8,7 +8,7 @@
 
 class World;
 class Player;
-std::vector<class MobileEntities*> mobs;
+class MobileEntities;
 
 class GameWindow : public TDT4102::AnimationWindow{
     private: 
@@ -29,9 +29,9 @@ class GameWindow : public TDT4102::AnimationWindow{
         void updateWindowPosition(const World& world, const Player& player);
         void drawWindow(const World& world);
         void drawPlayer(const Player& player);
-        void drawMobs(const std::vector<MobileEntities*>& mobs); //Vi har enda ikke laget mobs
+        void drawMobs(const std::vector<std::unique_ptr<MobileEntities>>& mobs); //Vi har enda ikke laget mobs
         /* 
         Dersom esc blir trykt på åpnes en ny meny og man kan lagre quit eller lage ny verden og laste opp den. 
         */
-        void openGameMenu(); 
+        // void openGameMenu(); 
 };
