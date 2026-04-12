@@ -13,6 +13,7 @@ ettersom at de lar spilleren og kameraet til å bevege seg.
 
 World klassen holder på alle blokkene til verdenen i en liste som hentes ut av updateWindow() for å tegne til vinduet. Vi henter ut kun gitte blokker som defineres 
 av en funksjon kalt blokks to render. Kameraets posisjon er satt til å følge etter spilleren som kan løpe rundt i verden. 
+Noe av det kuleste vi klarte å implementere var random world generation, med perlin noise. 
 
 itemDrop var en ny klasse som vi lagde for å hjelpe oss med å plokke opp items. Vær gang spilleren ødelegger en blokk så brukte vi emplaceBack i en liste i worlds. 
 Om posisjonen var lik med spiller økte vi forekomsten av denne i spilleren. 
