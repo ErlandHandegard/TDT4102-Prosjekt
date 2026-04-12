@@ -133,7 +133,7 @@ void GameWindow::drawDrops(const World& world){
     }
 }
 
-void GameWindow::drawItemInSlot(std::string itemType, int x, int y, int size) {
+void GameWindow::drawItemInSlot(std::string itemType, int x, int y, int size, std::string amount) {
     // Bestem filnavn: Er det en pickaxe eller en blokk-drop?
     std::string path;
     std::string cacheKey;
@@ -157,6 +157,9 @@ void GameWindow::drawItemInSlot(std::string itemType, int x, int y, int size) {
 
     // Tegn bildet skalert til slot-størrelsen
     this->draw_image({x, y}, imageCache[cacheKey], size, size);
+    if (amount != "mine"){ //Legg til flere kondisjons
+        this->draw_text({x, y}, amount);
+    }
 }
 
 void GameWindow::openGameMenu(Player& player, World& world) {
@@ -174,6 +177,7 @@ void GameWindow::openGameMenu(Player& player, World& world) {
 
     //Henter hvilket item man har i inventoriet sitt. 
     std::vector<std::vector<std::string>> item = player.getItem();
+    std::vector<std::vector<std::string>> amount = player.getAmount();
 
     // Tegner hele menyen om openMeny er true
     if (this->openMeny) {
@@ -183,12 +187,10 @@ void GameWindow::openGameMenu(Player& player, World& world) {
                 int yPos = startY + (row * slotSize);
 
                 // Tegn bakgrunn for slot. Dette hadde blit finere om vi hadde hatt ett bilde
-                this->draw_rectangle({xPos + padding, yPos + padding}, slotSize - padding*2, slotSize - padding*2, TDT4102::Color::aqua);
+                this->draw_rectangle({xPos + padding, yPos + padding}, slotSize - padding*2, slotSize - padding*2, TDT4102::Color::cornflower_blue);
 
-                // Tegn innhold (Bilde)
-                std::string itemType = item.at(row).at(slot);
-                if (itemType != "0") {
-                    this -> drawItemInSlot(itemType, xPos + 2 * padding, startY + 2 * padding, slotSize - padding*4);
+                if (item.at(row).at(slot) != "0") {
+                    this -> drawItemInSlot(item.at(row).at(slot), xPos + 2 * padding, startY + 2 * padding, slotSize - padding*4, amount.at(row).at(slot));
                 }
             }
         }
@@ -201,13 +203,12 @@ void GameWindow::openGameMenu(Player& player, World& world) {
         int xPos = startX + (slot * slotSize);
         
         // Sjekk om dette er den aktive slotten
-        TDT4102::Color slotColor = (slot == activeSlot) ? TDT4102::Color::dark_yellow : TDT4102::Color::cornflower_blue;
+        TDT4102::Color slotColor = (slot == activeSlot) ? TDT4102::Color::dark_yellow : TDT4102::Color::aqua;
 
         this->draw_rectangle({xPos + padding, startY + padding}, slotSize - padding*2, slotSize - padding*2, slotColor);
 
-        std::string itemType = item.at(0).at(slot);
-        if (itemType != "0") {
-            this -> drawItemInSlot(itemType, xPos + 2 * padding, startY + 2 * padding, slotSize - padding*4);
+        if (item.at(0).at(slot) != "0") {
+            this -> drawItemInSlot(item.at(0).at(slot), xPos + 2 * padding, startY + 2 * padding, slotSize - padding*4, amount.at(0).at(slot));
         }
     }
 }

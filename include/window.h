@@ -41,5 +41,5 @@ class GameWindow : public TDT4102::AnimationWindow{
         */
 
         void openGameMenu(Player& player, World& world); 
-        void drawItemInSlot(std::string itemType, int x, int y, int size);
+        void drawItemInSlot(std::string itemType, int x, int y, int size, std::string amount);
 };
