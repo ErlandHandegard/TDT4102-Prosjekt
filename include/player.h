@@ -34,6 +34,7 @@ class Player {
         std::string getCurrentItem() const { return currentItem; }
         std::string getAction() const { return action; }
         TDT4102::Point getPosition() const { return position; }
+        TDT4102::Point getSpeed() const {return velocity; }
 
         void move(const GameWindow& gameWindow, const World& world);
 

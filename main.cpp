@@ -7,7 +7,7 @@
 
 
 int main() {
-    GameWindow gameWindow({100, 100}, {14*32, 7*32}, "Game window");
+    GameWindow gameWindow({100, 100}, {1200, 800}, "Game window");
 
     Player player({100, 100}, "dplayer/examplePlayer.txt");
 
@@ -32,6 +32,7 @@ int main() {
         world.growGrass();
         
         //Tegne funksjonene må legges til sist. 
+        gameWindow.drawBackground(player);
         gameWindow.drawWindow(world);
         gameWindow.drawDrops(world); 
         gameWindow.drawPlayer(player);

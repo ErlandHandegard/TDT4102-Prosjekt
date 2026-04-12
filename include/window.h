@@ -20,6 +20,13 @@ class GameWindow : public TDT4102::AnimationWindow{
         TDT4102::Point mouseInventoryPosition; 
         bool openMeny;
         bool wasEscPressed;
+
+        //Lage bakgrunn
+        TDT4102::Image layer1{"cpictures/bakerst.png"};
+        TDT4102::Image layer2{"cpictures/nestbakerst.png"};
+        TDT4102::Image layer3{"cpictures/midten.png"};
+        TDT4102::Image layer4{"cpictures/nestfremst.png"};
+        TDT4102::Image layer5{"cpictures/fremst.png"};
     public: 
         TDT4102::Point getMouseGridPosition () const {return mouseGridPosition;}
         /*
@@ -32,6 +39,7 @@ class GameWindow : public TDT4102::AnimationWindow{
         */
         void amountOfBlocksToRender();
         void updateWindowPosition(const World& world, const Player& player);
+        void drawBackground(const Player& player);
         void drawWindow(const World& world);
         void drawDrops(const World& world);
         void drawPlayer(const Player& player);

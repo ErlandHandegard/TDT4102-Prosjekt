@@ -12,7 +12,7 @@ GameWindow::GameWindow(TDT4102::Point windowPosition, TDT4102::Point startingDim
 }
 
 void GameWindow::amountOfBlocksToRender(){
-    this->blocksToRender.x = (this->width() / 32) + 1; // Vi legger til 1 for å være sikker på at vi rendrer nok blokker i kantene av vinduet.
+    this->blocksToRender.x = (this->width() / 32) + 2; // Vi legger til 1 for å være sikker på at vi rendrer nok blokker i kantene av vinduet.
     this->blocksToRender.y = (this->height() / 32) + 2;
 }
 
@@ -84,6 +84,35 @@ void GameWindow::updateWindowPosition(const World& world, const Player& player){
 
     this -> mouseGridPosition.x = (this -> get_mouse_coordinates().x + this -> cameraPosition.x)/32;
     this -> mouseGridPosition.y = (this -> get_mouse_coordinates().y + this -> cameraPosition.y)/32;
+}
+
+void GameWindow::drawBackground(const Player& player) {
+    this -> setBackgroundColor(TDT4102::Color::saddle_brown);
+    //Bilde baserer seg på spiller posisjonen
+    int playerX = player.getPosition().x;
+
+    //Nåverende størrelse på skjermen
+    int width = this->width(); 
+    int height = this->height();
+
+    //Hastigheter for ulike bilder
+    double factors[] = {0.01, 0.05, 0.1, 0.2, 0.1};
+    TDT4102::Image* layers[] = {&layer1, &layer2, &layer3, &layer4, &layer5};
+
+    for (int i = 0; i < 5; ++i) {
+        double offset = fmod(playerX * factors[i], width);
+        
+        if (offset < 0) offset += width;
+
+        TDT4102::Point pos1{static_cast<int>(-offset), 0};
+        this->draw_image(pos1, *layers[i], width, height/1.7);
+
+        TDT4102::Point pos2{ static_cast<int>(-offset + width), 0};
+        this->draw_image(pos2, *layers[i], width, height/1.7);
+
+        TDT4102::Point pos3{ static_cast<int>(-offset - width), 0};
+        this->draw_image(pos3, *layers[i], width, height/1.7);
+    }
 }
 
 //Funksjonen skal ta inn mobs, players og rett antall blocker. 
