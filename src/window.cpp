@@ -13,7 +13,7 @@ GameWindow::GameWindow(TDT4102::Point windowPosition, TDT4102::Point startingDim
 }
 
 void GameWindow::amountOfBlocksToRender(){
-    this->blocksToRender.x = (this->width() / 32) + 1; // Vi legger til 1 for å være sikker på at vi rendrer nok blokker i kantene av vinduet.
+    this->blocksToRender.x = (this->width() / 32) + 2; // Vi legger til 1 for å være sikker på at vi rendrer nok blokker i kantene av vinduet.
     this->blocksToRender.y = (this->height() / 32) + 2;
 }
 
@@ -87,6 +87,35 @@ void GameWindow::updateWindowPosition(const World& world, const Player& player){
     this -> mouseGridPosition.y = (this -> get_mouse_coordinates().y + this -> cameraPosition.y)/32;
 }
 
+void GameWindow::drawBackground(const Player& player) {
+    this -> setBackgroundColor(TDT4102::Color::saddle_brown);
+    //Bilde baserer seg på spiller posisjonen
+    int playerX = player.getPosition().x;
+
+    //Nåverende størrelse på skjermen
+    int width = this->width(); 
+    int height = this->height();
+
+    //Hastigheter for ulike bilder
+    double factors[] = {0.01, 0.05, 0.1, 0.2, 0.1};
+    TDT4102::Image* layers[] = {&layer1, &layer2, &layer3, &layer4, &layer5};
+
+    for (int i = 0; i < 5; ++i) {
+        double offset = fmod(playerX * factors[i], width);
+        
+        if (offset < 0) offset += width;
+
+        TDT4102::Point pos1{static_cast<int>(-offset), 0};
+        this->draw_image(pos1, *layers[i], width, height/1.7);
+
+        TDT4102::Point pos2{ static_cast<int>(-offset + width), 0};
+        this->draw_image(pos2, *layers[i], width, height/1.7);
+
+        TDT4102::Point pos3{ static_cast<int>(-offset - width), 0};
+        this->draw_image(pos3, *layers[i], width, height/1.7);
+    }
+}
+
 //Funksjonen skal ta inn mobs, players og rett antall blocker. 
 void GameWindow::drawWindow(const World& world){
     //this -> setBackgroundColor(TDT4102::Color::dark_green);
@@ -115,7 +144,8 @@ void GameWindow::drawPlayer(const Player& player){
     //TDT4102::Image playerImage("cpictures/player.png"); // Dette blir feil, vi må laste inn bilder fra klassen slik at vi kan lage animasjoner og forskjellige skins.
     TDT4102::Point playerPosition(player.getPosition().x, player.getPosition().y);
     TDT4102::Point topLeftCorner(playerPosition.x - cameraPosition.x, playerPosition.y - cameraPosition.y);
-    this -> draw_rectangle(topLeftCorner, 40, 80, TDT4102::Color::blue); // Midlertidig, skal tegne spilleren som et rektangel før vi har laget sprites.
+    TDT4102::Image image("cpictures/player.png");
+    this -> draw_image(topLeftCorner, image, 40, 80); // Midlertidig, skal tegne spilleren som et rektangel før vi har laget sprites.
 }
 
 void GameWindow::drawMobs(const std::vector<std::unique_ptr<MobileEntities>>& mobs){
