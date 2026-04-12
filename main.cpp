@@ -25,10 +25,12 @@ int main() {
         player.move(gameWindow, world1);
         player.desideCurrentAction(gameWindow);
         player.executeAction(gameWindow, world1);
+        world1.updateBlockDrops(player);
         world1.growGrass();
         
         //Tegne funksjonene må legges til sist. 
         gameWindow.drawWindow(world1);
+        gameWindow.drawDrops(world1); 
         gameWindow.drawPlayer(player);
 
         gameWindow.openGameMenu(player);

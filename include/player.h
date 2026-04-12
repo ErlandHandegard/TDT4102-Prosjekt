@@ -38,6 +38,7 @@ class Player {
         void desideCurrentAction(const GameWindow& gameWindow);
         
         void executeAction(const GameWindow& gameWindow, World& world);
+        
         // void attack();
 
         // void takeDamage(int damage);

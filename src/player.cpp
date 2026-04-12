@@ -38,6 +38,26 @@ Player::Player(TDT4102::Point strartingPosition, const std::string &filePath){
         }
         this -> inventory.push_back(row);
     }
+
+    this->item.resize(4, std::vector<std::string>(10, "0"));
+    this->amount.resize(4, std::vector<std::string>(10, "0"));
+
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 10; ++j) {
+            bool fillItem = 1;
+            for (char c : this -> inventory[i][j]){
+                if (c = '*'){
+                    fillItem = 0;
+                    continue; //Hopper over '*'
+                }
+                if (fillItem){
+                    this -> item[i][j] += c;
+                } else {
+                    this -> amount[i][j] += c;
+                }
+            }
+        }
+    }
 }
 
 void Player::desideCurrentAction(const GameWindow& gameWindow){ 
@@ -49,6 +69,7 @@ void Player::desideCurrentAction(const GameWindow& gameWindow){
         this -> hotBarIndex = 9;
     }
     std::string findAction = this -> inventory.at(0).at(this -> hotBarIndex);
+    this->action = "";
     for (char c : findAction){
         this -> action += c;
         if (c == '*'){
@@ -77,6 +98,8 @@ void Player::executeAction(const GameWindow& gameWindow, World& world){
         this -> build(gameWindow, world, this -> currentItem);
     }
     this -> inventory.at(0).at(this -> hotBarIndex) = currentItem + "*" + action;
+    this -> item.at(0).at(this -> hotBarIndex) = currentItem;
+    this -> amount.at(0).at(this -> hotBarIndex) = action;
 }
 
 void Player::mine(const GameWindow& gameWindow, World& world){
@@ -211,8 +234,29 @@ void Player::move(const GameWindow& gameWindow, const World& world) {
     }
 }
 
-void Player::updateInventory(){
-
+bool Player::updateInventory(std::string blockType){
+    for (int i = 0; i < 4; ++i){
+        for (int j = 0; j < 10; ++j){
+            if (this -> item.at(i).at(j) == blockType){
+                this -> amount.at(i).at(j) = std::to_string(std::stoi(this -> amount.at(i).at(j)) + 1);
+                this -> inventory.at(i).at(j) = item.at(i).at(j) + "*" + amount.at(i).at(j);
+                return 1;
+            }
+        }
+    }
+    // inventory har ikke item
+    for (int i = 0; i < 4; ++i){
+        for (int j = 0; j < 10; ++j){
+            if (this -> item.at(i).at(j) == "0"){
+                this -> item.at(i).at(j) = blockType;
+                this -> amount.at(i).at(j) = std::to_string(std::stoi(this -> amount.at(i).at(j)) + 1);
+                this -> inventory.at(i).at(j) = item.at(i).at(j) + "*" + amount.at(i).at(j);
+                return 1;
+            }
+        }
+    }
+    //Inventoryet er fullt
+    return 0;
 }
 
 void Player::savePlayer(){

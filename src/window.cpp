@@ -117,6 +117,22 @@ void GameWindow::drawPlayer(const Player& player){
     this -> draw_rectangle(topLeftCorner, 40, 80, TDT4102::Color::blue); // Midlertidig, skal tegne spilleren som et rektangel før vi har laget sprites.
 }
 
+void GameWindow::drawDrops(const World& world){
+    for (const auto& item : world.getDroppedItems()){
+        // Lag en unik nøkkel, f.eks. "1_drop" i stedet for bare "1"
+        std::string dropKey = item.getBlockType() + "_drop";
+
+        if (imageCache.find(dropKey) == imageCache.end()){
+            imageCache[dropKey] = TDT4102::Image("cpictures/" + item.getBlockType() + "Drop.png");
+        }
+        
+        TDT4102::Image& image = imageCache[dropKey];
+        this->draw_image({item.getPosition().x - this->cameraPosition.x, 
+                          item.getPosition().y - this->cameraPosition.y}, 
+                        image, 16, 16);
+    }
+}
+
 //Denne må endres nå
 void GameWindow::openGameMenu(const Player& player){
     if (TDT4102::AnimationWindow::is_key_down(KeyboardKey::ESCAPE)){

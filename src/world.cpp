@@ -46,8 +46,26 @@ bool World::setBlock(TDT4102::Point gridPosition, std::string blockType){
 }
 
 void World::deleteBlock(TDT4102::Point gridPosition){
-    this -> worldBlocks[gridPosition.y][gridPosition.x] = "0"; //Mulig x og y må byttes
-    this -> collitionBlock[gridPosition.y][gridPosition.x] = 0;
+    if (this -> collitionBlock[gridPosition.y][gridPosition.x] != 0){
+        this -> generateBlockDrop(gridPosition);
+        this -> worldBlocks[gridPosition.y][gridPosition.x] = "0";
+        this -> collitionBlock[gridPosition.y][gridPosition.x] = 0;
+    } 
+}
+
+void World::generateBlockDrop(TDT4102::Point originPoint){
+    this -> droppedItems.emplace_back(TDT4102::Point(originPoint.x * 32, originPoint.y * 32), this -> worldBlocks[originPoint.y][originPoint.x]);
+}
+
+void World::updateBlockDrops(Player& player){
+    for (ItemDrop& item : this -> droppedItems){
+        item.pickUp(player);
+    }
+    this->droppedItems.erase(
+        std::remove_if(droppedItems.begin(), droppedItems.end(),
+            [](const ItemDrop& item) { return item.shouldRemove; }),
+        droppedItems.end()
+    );
 }
 
 void World::worldGenerator(const std::string &filePath, int worldWidth, int worldHeight, int seed){

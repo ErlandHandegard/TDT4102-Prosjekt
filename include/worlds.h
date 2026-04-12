@@ -6,6 +6,9 @@
 #include <string>
 #include "AnimationWindow.h"
 #include "perlinNoise/FastNoiseLite.h"
+#include "include/drops.h"
+
+class Player;
 
 class World{
     private:
@@ -13,12 +16,14 @@ class World{
         TDT4102::Point worldPixelSize;
         std::vector<std::vector<std::string>> worldBlocks;
         std::vector<std::vector<bool>> collitionBlock;
+        std::vector<ItemDrop> droppedItems;
     public:
         /*Deklarerer get funksjoner*/
         std::vector<std::vector<std::string>> getBlocks() const {return worldBlocks;}
         TDT4102::Point getWorldSizeInPixels() const {return worldPixelSize;}
         TDT4102::Point getWorldSizeInBlocks() const {return worldGrid;}
         std::vector<std::vector<bool>> getCollitionMatrix() const {return collitionBlock;}
+        std::vector<ItemDrop> getDroppedItems() const {return droppedItems; }
         /*
         Planen nå. Jeg laster alltid inn firstWorld.txt
         World laster inn denne. 
@@ -36,6 +41,10 @@ class World{
         bool setBlock(TDT4102::Point gridPosition, std::string blockType);
 
         void deleteBlock(TDT4102::Point gridPosition);
+
+        void generateBlockDrop(TDT4102::Point originPoint);
+
+        void updateBlockDrops(Player& player);
 
         void growGrass();
 
