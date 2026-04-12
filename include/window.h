@@ -9,6 +9,7 @@
 class World;
 class Player;
 class MobileEntities;
+class ItemDrop;
 
 class GameWindow : public TDT4102::AnimationWindow{
     private: 
@@ -16,7 +17,12 @@ class GameWindow : public TDT4102::AnimationWindow{
         TDT4102::Point cameraPosition;  //Skal være kameraposisjonen i pixelgriddet
         TDT4102::Point blocksToRender;  //Skal være en tuple med hvilke blokker i vær retning som skal rendere
         std::unordered_map<std::string, TDT4102::Image> imageCache;  // Cache for block images
+        TDT4102::Point mouseGridPosition;
+        TDT4102::Point mouseInventoryPosition; 
+        bool openMeny;
+        bool wasEscPressed;
     public: 
+        TDT4102::Point getMouseGridPosition () const {return mouseGridPosition;}
         /*
         Bare initialiserer det første vinduet
         */
@@ -28,10 +34,13 @@ class GameWindow : public TDT4102::AnimationWindow{
         void amountOfBlocksToRender();
         void updateWindowPosition(const World& world, const Player& player);
         void drawWindow(const World& world);
+        void drawDrops(const World& world);
         void drawPlayer(const Player& player);
         void drawMobs(const std::vector<std::unique_ptr<MobileEntities>>& mobs); //Vi har enda ikke laget mobs
         /* 
         Dersom esc blir trykt på åpnes en ny meny og man kan lagre quit eller lage ny verden og laste opp den. 
         */
-        // void openGameMenu(); 
+
+        void openGameMenu(Player& player, World& world); 
+        void drawItemInSlot(std::string itemType, int x, int y, int size, std::string amount);
 };

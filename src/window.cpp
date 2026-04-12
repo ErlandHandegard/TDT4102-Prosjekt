@@ -9,6 +9,7 @@ GameWindow::GameWindow(TDT4102::Point windowPosition, TDT4102::Point startingDim
     this -> gridPosition = TDT4102::Point(1, 1);
     this -> cameraPosition = TDT4102::Point(32,32);
     this -> blocksToRender = TDT4102::Point((this->width() / 32) + 1, (this->height() / 32) + 1); 
+    this -> openMeny = 0;
 }
 
 void GameWindow::amountOfBlocksToRender(){
@@ -81,12 +82,15 @@ void GameWindow::updateWindowPosition(const World& world, const Player& player){
         }
     this -> gridPosition.x = cameraPosition.x / 32;
     this -> gridPosition.y = cameraPosition.y / 32; 
+
+    this -> mouseGridPosition.x = (this -> get_mouse_coordinates().x + this -> cameraPosition.x)/32;
+    this -> mouseGridPosition.y = (this -> get_mouse_coordinates().y + this -> cameraPosition.y)/32;
 }
 
 //Funksjonen skal ta inn mobs, players og rett antall blocker. 
 void GameWindow::drawWindow(const World& world){
     //this -> setBackgroundColor(TDT4102::Color::dark_green);
-    std::vector<std::vector<std::string>> blocks = world.getBlocks();
+    const std::vector<std::vector<std::string>>& blocks = world.getBlocks();
 
     for (int i = this -> gridPosition.x; i < this -> gridPosition.x + this->blocksToRender.x; ++i){
         for (int j = this -> gridPosition.y; j < this -> gridPosition.y + this->blocksToRender.y; ++j){
@@ -149,3 +153,98 @@ void GameWindow::drawMobs(const std::vector<std::unique_ptr<MobileEntities>>& mo
 // void GameWindow::openGameMenu(){
 
 // }
+void GameWindow::drawDrops(const World& world){
+    for (const auto& item : world.getDroppedItems()){
+        // Lag en unik nøkkel, f.eks. "1_drop" i stedet for bare "1"
+        std::string dropKey = item.getBlockType() + "_drop";
+
+        if (imageCache.find(dropKey) == imageCache.end()){
+            imageCache[dropKey] = TDT4102::Image("cpictures/" + item.getBlockType() + "Drop.png");
+        }
+        
+        TDT4102::Image& image = imageCache[dropKey];
+        this->draw_image({item.getPosition().x - this->cameraPosition.x, 
+                          item.getPosition().y - this->cameraPosition.y}, 
+                        image, 16, 16);
+    }
+}
+
+void GameWindow::drawItemInSlot(std::string itemType, int x, int y, int size, std::string amount) {
+    // Bestem filnavn: Er det en pickaxe eller en blokk-drop?
+    std::string path;
+    std::string cacheKey;
+
+    if (itemType == "1"){
+        itemType = "2";
+    }
+
+    if (itemType.find("Pick") != std::string::npos) {
+        path = "cpictures/" + itemType + ".png";
+        cacheKey = itemType; // f.eks "ironPick"
+    } else {
+        path = "cpictures/" + itemType + "Drop.png";
+        cacheKey = itemType + "_drop"; // Viktig for å ikke blande med blokker i verden
+    }
+
+    // Sjekk cache
+    if (imageCache.find(cacheKey) == imageCache.end()) {
+        imageCache[cacheKey] = TDT4102::Image(path);
+    }
+
+    // Tegn bildet skalert til slot-størrelsen
+    this->draw_image({x, y}, imageCache[cacheKey], size, size);
+    if (amount != "mine"){ //Legg til flere kondisjons
+        this->draw_text({x, y}, amount);
+    }
+}
+
+void GameWindow::openGameMenu(Player& player, World& world) {
+    //Initialiserer det grunnlegende for GUI
+    int menyWidth = this -> width() * 0.40;  //Skal ta 40% av skjermen, gjør det til int senere
+    int slotSize = menyWidth / 10;           // Del opp i 10 kolonner
+    int padding = slotSize * 0.1;            // 10% av slot-størrelsen som mellomrom
+    int startX = (menyWidth) * 0.05;         // Starter Oppe i venstre gjørne
+    int startY = startX;                     // Samme avstand som x
+
+    //Gjør slik at menyen kun er åpen om escape er blitt trykt på. 
+    if (this->is_key_down(KeyboardKey::ESCAPE)) {
+        this->openMeny = !this->openMeny;
+    }
+
+    //Henter hvilket item man har i inventoriet sitt. 
+    std::vector<std::vector<std::string>> item = player.getItem();
+    std::vector<std::vector<std::string>> amount = player.getAmount();
+
+    // Tegner hele menyen om openMeny er true
+    if (this->openMeny) {
+        for (int row = 1; row < 4; ++row) {
+            for (int slot = 0; slot < 10; ++slot) {
+                int xPos = startX + (slot * slotSize);
+                int yPos = startY + (row * slotSize);
+
+                // Tegn bakgrunn for slot. Dette hadde blit finere om vi hadde hatt ett bilde
+                this->draw_rectangle({xPos + padding, yPos + padding}, slotSize - padding*2, slotSize - padding*2, TDT4102::Color::cornflower_blue);
+
+                if (item.at(row).at(slot) != "0") {
+                    this -> drawItemInSlot(item.at(row).at(slot), xPos + 2 * padding, startY + 2 * padding, slotSize - padding*4, amount.at(row).at(slot));
+                }
+            }
+        }
+        // legg inn knapper her :)
+    }
+
+    int activeSlot = player.getHotBarIndex();
+
+    for (int slot = 0; slot < 10; ++slot) {
+        int xPos = startX + (slot * slotSize);
+        
+        // Sjekk om dette er den aktive slotten
+        TDT4102::Color slotColor = (slot == activeSlot) ? TDT4102::Color::dark_yellow : TDT4102::Color::aqua;
+
+        this->draw_rectangle({xPos + padding, startY + padding}, slotSize - padding*2, slotSize - padding*2, slotColor);
+
+        if (item.at(0).at(slot) != "0") {
+            this -> drawItemInSlot(item.at(0).at(slot), xPos + 2 * padding, startY + 2 * padding, slotSize - padding*4, amount.at(0).at(slot));
+        }
+    }
+}

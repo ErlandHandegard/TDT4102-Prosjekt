@@ -5,6 +5,10 @@
 #include <vector>
 #include <string>
 #include "AnimationWindow.h"
+#include "perlinNoise/FastNoiseLite.h"
+#include "include/drops.h"
+
+class Player;
 
 class World{
     private:
@@ -12,12 +16,14 @@ class World{
         TDT4102::Point worldPixelSize;
         std::vector<std::vector<std::string>> worldBlocks;
         std::vector<std::vector<bool>> collitionBlock;
+        std::vector<ItemDrop> droppedItems;
     public:
         /*Deklarerer get funksjoner*/
         std::vector<std::vector<std::string>> getBlocks() const {return worldBlocks;}
         TDT4102::Point getWorldSizeInPixels() const {return worldPixelSize;}
         TDT4102::Point getWorldSizeInBlocks() const {return worldGrid;}
         std::vector<std::vector<bool>> getCollitionMatrix() const {return collitionBlock;}
+        std::vector<ItemDrop> getDroppedItems() const {return droppedItems; }
         /*
         Planen nå. Jeg laster alltid inn firstWorld.txt
         World laster inn denne. 
@@ -30,17 +36,17 @@ class World{
         skal den lage en verden å legge den inn i
         eworlds-mappen
         */
-        void worldGenerator();
-        /*
-        Funksjon som 
+        void worldGenerator(const std::string &filePath, int worldWidth, int worldHeight, int seed);
+        
+        bool setBlock(TDT4102::Point gridPosition, std::string blockType);
 
-        antall mobs
+        void deleteBlock(TDT4102::Point gridPosition);
 
-        spiller
+        void generateBlockDrop(TDT4102::Point originPoint);
 
-        ødelegg
+        void updateBlockDrops(Player& player);
 
-        plasser
-        */
+        void growGrass();
 
+        void saveWorld(const std::string &filePath);
 };
