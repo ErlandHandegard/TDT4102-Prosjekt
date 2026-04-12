@@ -33,6 +33,7 @@ class GameWindow : public TDT4102::AnimationWindow{
         void amountOfBlocksToRender();
         void updateWindowPosition(const World& world, const Player& player);
         void drawWindow(const World& world);
+        void drawDrops(const World& world);
         void drawPlayer(const Player& player);
         // void drawMobs(const std::vector<Mob>& mobs); Vi har enda ikke laget mobs
         /* 

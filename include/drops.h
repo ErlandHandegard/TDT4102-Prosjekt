@@ -1,17 +1,14 @@
 #pragma once
 #include <iostream>
 #include "AnimationWindow.h"
+#include "include/player.h"
 
 class ItemDrop{
     private:
         TDT4102::Point position;
-        TDT4102::Point velocity;
-        TDT4102::Point acceleration;
-        TDT4102::Point gridPosition;
+        std::string blockType;
     public:
-        ItemDrop();
+        ItemDrop(TDT4102::Point originPoint, std::string blockType);
 
-        void move(); 
-
-        void pickUp();
+        void pickUp(Player& player);
 };

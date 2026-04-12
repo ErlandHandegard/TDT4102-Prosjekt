@@ -14,10 +14,12 @@ class Player {
         TDT4102::Point acceleration;
         TDT4102::Point playerSize;
         std::vector<std::vector<std::string>> inventory;
+        std::vector<std::vector<std::string>> item; //Dette er hva som er i en gitt slott i inventory
+        std::vector<std::vector<std::string>> amount; //Dette er mengden, men kan være mine for pickaxe
         int hotBarIndex; //Tall fra en til ti i hotbaren
         int currentBlockAmount; //Antall blokker om action er Build
         std::string action; //Tillatt handling er "attack", "Mine", "Build"
-        std::string currentItem;
+        std::string currentItem; //Hva han holder. For eksempel pickaxe. Viktig under tegning!
     public:
         //Skal lastes av vindu
         std::vector<std::vector<std::string>> getInventory() const {return inventory;}
@@ -44,7 +46,7 @@ class Player {
 
         void build(const GameWindow& gameWindow, World& world, std::string blockType);
 
-        void updateInventory();
+        bool updateInventory(std::string blockType);
 
         void savePlayer();
 };
