@@ -39,5 +39,7 @@ class GameWindow : public TDT4102::AnimationWindow{
         /* 
         Dersom esc blir trykt på åpnes en ny meny og man kan lagre quit eller lage ny verden og laste opp den. 
         */
-        void openGameMenu(const Player& player); 
+
+        void openGameMenu(Player& player, World& world); 
+        void drawItemInSlot(std::string itemType, int x, int y, int size);
 };

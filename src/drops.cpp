@@ -27,6 +27,9 @@ std::string ItemDrop::getBlockType() const{
 
 void ItemDrop::pickUp(Player& player){
     if (isCollitionItem(player.getPosition(), this -> position)){
+        if (this -> blockType == "1"){
+            this -> blockType = "2";
+        }
         if (player.updateInventory(this -> blockType)){
             this -> shouldRemove = true;
         }

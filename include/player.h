@@ -23,6 +23,8 @@ class Player {
     public:
         //Skal lastes av vindu
         std::vector<std::vector<std::string>> getInventory() const {return inventory;}
+        std::vector<std::vector<std::string>> getItem() const {return item;}
+        std::vector<std::vector<std::string>> getAmount() const {return amount;}
         TDT4102::Point getGridPosition() const {return gridPosition;}
 
         Player(TDT4102::Point strartingPosition, const std::string &filePath); // Må laste inn ett bilde av karakteren og sette det som sprite.

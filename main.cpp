@@ -11,7 +11,7 @@ int main() {
 
     Player player({100, 100}, "dplayer/examplePlayer.txt");
 
-    World world1("eworlds/testWorldGenerator.txt");
+    World world("eworlds/testWorldGenerator.txt");
     
     //world1.worldGenerator("eworlds/testWorldGenerator.txt", 200, 100, 67);
 
@@ -21,19 +21,19 @@ int main() {
         gameWindow.amountOfBlocksToRender();
 
         //Uppdaterer posisjonen til vinduet og spilleren
-        gameWindow.updateWindowPosition(world1, player);
-        player.move(gameWindow, world1);
+        gameWindow.updateWindowPosition(world, player);
+        player.move(gameWindow, world);
         player.desideCurrentAction(gameWindow);
-        player.executeAction(gameWindow, world1);
-        world1.updateBlockDrops(player);
-        world1.growGrass();
+        player.executeAction(gameWindow, world);
+        world.updateBlockDrops(player);
+        world.growGrass();
         
         //Tegne funksjonene må legges til sist. 
-        gameWindow.drawWindow(world1);
-        gameWindow.drawDrops(world1); 
+        gameWindow.drawWindow(world);
+        gameWindow.drawDrops(world); 
         gameWindow.drawPlayer(player);
 
-        gameWindow.openGameMenu(player);
+        gameWindow.openGameMenu(player, world);
 
         gameWindow.next_frame();
     }
