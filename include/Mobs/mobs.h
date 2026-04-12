@@ -35,7 +35,7 @@ class MobileEntities{
         TDT4102::Point getVelocity() const { return velocity; }
         TDT4102::Point getAcceleration() const { return acceleration; }
 
-        virtual void move(const World& world, const GameWindow& gameWindow) = 0;
+        virtual void move(const World& world, const GameWindow& gameWindow, const Player& player) = 0;
         
 };
 

@@ -11,7 +11,7 @@
 int main() {
     GameWindow gameWindow({100, 100}, {14*32, 7*32}, "Game window");
 
-    Player player({100, 100});
+    Player player({100, 100},"dplayer/examplePlayer.txt");
     std::vector<std::unique_ptr<MobileEntities>> mobs;
     std::unique_ptr<MobileEntities> mobPtr = std::make_unique<Ground>(TDT4102::Point {30,150});
     mobs.push_back(std::move(mobPtr));
@@ -36,7 +36,7 @@ int main() {
         world.updateBlockDrops(player);
         world.growGrass();
         for(const std::unique_ptr<MobileEntities>& mob : mobs){
-            mob->move(world1,gameWindow);
+            mob->move(world,gameWindow,player);
         }        
         //Tegne funksjonene må legges til sist. 
         gameWindow.drawWindow(world);

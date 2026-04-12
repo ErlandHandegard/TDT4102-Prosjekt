@@ -3,7 +3,7 @@
 Ground::Ground(TDT4102::Point point) : MobileEntities(point){
 }
 
-void Ground::move(const World& world, const GameWindow& gameWindow){
+void Ground::move(const World& world, const GameWindow& gameWindow, const Player& player){
     //Tyngdekraften påvirker bakke mobs hele tiden, 
     // så vi legger til akselerasjonen i hastigheten hver frame i starten
     this -> velocity.y += this -> acceleration.y;
@@ -32,6 +32,15 @@ void Ground::move(const World& world, const GameWindow& gameWindow){
     if(onGround && (this -> colition == Colition::left || this -> colition == Colition::right)){
         this->velocity.y = -15;
     }
+
+    //Får mobben til å følge etter player hvis de ikke er nærme nok hverandre
+    TDT4102::Point deltaPlayer = {player.getPosition().x-this->position.x, player.getPosition().y-this->position.y};
+    if(abs(deltaPlayer.x) > this->width()-10 && abs(deltaPlayer.x) < 800 && abs(deltaPlayer.y) < 300) {
+        this->velocity.x = (deltaPlayer.x> 0) ? 4 : -4;
+    }else{
+        this->velocity.x = 0;
+    }
+
 
 
     // Legger inn steps slik at vi ikke får tunnelering i vertikal retning.
