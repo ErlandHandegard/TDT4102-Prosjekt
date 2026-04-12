@@ -143,7 +143,8 @@ void GameWindow::drawPlayer(const Player& player){
     //TDT4102::Image playerImage("cpictures/player.png"); // Dette blir feil, vi må laste inn bilder fra klassen slik at vi kan lage animasjoner og forskjellige skins.
     TDT4102::Point playerPosition(player.getPosition().x, player.getPosition().y);
     TDT4102::Point topLeftCorner(playerPosition.x - cameraPosition.x, playerPosition.y - cameraPosition.y);
-    this -> draw_rectangle(topLeftCorner, 40, 80, TDT4102::Color::blue); // Midlertidig, skal tegne spilleren som et rektangel før vi har laget sprites.
+    TDT4102::Image image("cpictures/player.png");
+    this -> draw_image(topLeftCorner, image, 40, 80); // Midlertidig, skal tegne spilleren som et rektangel før vi har laget sprites.
 }
 
 void GameWindow::drawDrops(const World& world){
