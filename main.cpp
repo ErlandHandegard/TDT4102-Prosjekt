@@ -11,10 +11,13 @@ int main() {
 
     Player player({100, 100}, "dplayer/examplePlayer.txt");
 
-    World world("eworlds/testWorldGenerator.txt");
+    World initWorld("eworlds/testWorldGenerator.txt");
     
-    //world1.worldGenerator("eworlds/testWorldGenerator.txt", 200, 100, 67);
-
+    initWorld.worldGenerator("eworlds/testWorldGenerator.txt", 200, 100, 67);
+    
+    //Bare en quick fix slik at det er lettere å demonstrere random tarrain
+    //Vi dropper load og save world for nå.
+    World world("eworlds/testWorldGenerator.txt");
 
     while(!gameWindow.should_close()){
         //Oppdaterer antall blokker som skal rendres
