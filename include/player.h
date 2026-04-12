@@ -2,6 +2,8 @@
 #include <iostream>
 #include "AnimationWindow.h"
 
+
+bool isCollision(const std::vector<std::vector<bool>>& matrix, int x, int y);
 class World;
 class GameWindow;
 
