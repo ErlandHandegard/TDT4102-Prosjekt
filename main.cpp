@@ -13,7 +13,7 @@ int main() {
 
     Player player({100, 100},"dplayer/examplePlayer.txt");
     std::vector<std::unique_ptr<MobileEntities>> mobs;
-    std::unique_ptr<MobileEntities> mobPtr = std::make_unique<Ground>(TDT4102::Point {30,150});
+    std::unique_ptr<MobileEntities> mobPtr = std::make_unique<Ground>(TDT4102::Point {30,150},"cpictures/mob.png");
     mobs.push_back(std::move(mobPtr));
 
     World initWorld("eworlds/testWorldGenerator.txt");

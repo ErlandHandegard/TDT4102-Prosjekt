@@ -44,7 +44,7 @@ class GameWindow : public TDT4102::AnimationWindow{
         void drawWindow(const World& world);
         void drawDrops(const World& world);
         void drawPlayer(const Player& player);
-        void drawMobs(const std::vector<std::unique_ptr<MobileEntities>>& mobs); //Vi har enda ikke laget mobs
+        void drawMobs(const std::vector<std::unique_ptr<MobileEntities>>& mobs); //tegner mobs fra en vector av mobspekere, potesielt av forskjellig type 
         /* 
         Dersom esc blir trykt på åpnes en ny meny og man kan lagre quit eller lage ny verden og laste opp den. 
         */

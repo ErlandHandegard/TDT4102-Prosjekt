@@ -25,8 +25,9 @@ class MobileEntities{
         TDT4102::Point mobSize;
         Colition colition;
         bool moving;
+        TDT4102::Image look;
     public:
-        MobileEntities(TDT4102::Point startingPosition);
+        MobileEntities(TDT4102::Point startingPosition, std::string filepath);
         int getHealth() const { return health; }
         TDT4102::Point getPosition() const { return position; }
         TDT4102::Point getMobsize() const { return mobSize; }
@@ -34,6 +35,7 @@ class MobileEntities{
         int height() const {return getMobsize().y;}
         TDT4102::Point getVelocity() const { return velocity; }
         TDT4102::Point getAcceleration() const { return acceleration; }
+        TDT4102::Image getLook() const {return look; }
 
         virtual void move(const World& world, const GameWindow& gameWindow, const Player& player) = 0;
         

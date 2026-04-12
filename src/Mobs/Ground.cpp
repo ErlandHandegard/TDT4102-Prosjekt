@@ -1,6 +1,6 @@
 #include "Mobs/ground.h"
 
-Ground::Ground(TDT4102::Point point) : MobileEntities(point){
+Ground::Ground(TDT4102::Point point, std::string filepath) : MobileEntities(point,filepath){
 }
 
 void Ground::move(const World& world, const GameWindow& gameWindow, const Player& player){
@@ -30,13 +30,14 @@ void Ground::move(const World& world, const GameWindow& gameWindow, const Player
 
     // gir hopping hvis mobben er på bakken og har kolidert enten til høyre eller venstre for seg
     if(onGround && (this -> colition == Colition::left || this -> colition == Colition::right)){
-        this->velocity.y = -15;
+        this->velocity.y = -10;
     }
 
     //Får mobben til å følge etter player hvis de ikke er nærme nok hverandre
     TDT4102::Point deltaPlayer = {player.getPosition().x-this->position.x, player.getPosition().y-this->position.y};
-    if(abs(deltaPlayer.x) > this->width()-10 && abs(deltaPlayer.x) < 800 && abs(deltaPlayer.y) < 300) {
-        this->velocity.x = (deltaPlayer.x> 0) ? 4 : -4;
+
+    if(abs(deltaPlayer.x) > this->width()-10 && abs(deltaPlayer.x) < 400 && abs(deltaPlayer.y) < 300) {
+        this->velocity.x = (deltaPlayer.x> 0) ? 3 : -3;
     }else{
         this->velocity.x = 0;
     }
@@ -60,10 +61,10 @@ void Ground::move(const World& world, const GameWindow& gameWindow, const Player
 
         if (dirY < 0) { // opp
             if (!isCollision(collitionMatrix,right+1,bottom) && this -> colition == Colition::right){
-                velocity.x = 4;
+                velocity.x = 3;
                 this -> colition = Colition::none;
             }else if (!isCollision(collitionMatrix,left-1,bottom) && this -> colition == Colition::left){
-                velocity.x = -4;
+                velocity.x = -3;
                 this -> colition = Colition::none;
             }
             for (int x = left; x <= right; x++) {
